@@ -21,6 +21,10 @@ function create(floor)
                 collideWithMaskBits = collisionMasks.DYNAMIC_PROPS | collisionMasks.DYNAMIC_CHARACTER,
             }
         },
+        CustomShader {
+            vertexShaderPath = "shaders/default.vert",
+            fragmentShaderPath = "shaders/dinoisland/water.frag"
+        },
         BoxColliderShape {
             halfExtents = vec3(100, 0, 100)
         },
