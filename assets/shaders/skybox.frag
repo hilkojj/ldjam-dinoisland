@@ -12,11 +12,11 @@ uniform samplerCube skyBox;
 
 void main()
 {
-    vec3 envColor = texture(skyBox, localPos).rgb;
+    vec3 envColor = vec3(0.1f, 0.7f, 4.0f);
 
-    envColor = pow(envColor, vec3(1.0 / GAMMA));
+//    envColor = pow(envColor, vec3(1.0f / GAMMA));
 
-    colorOut = vec4(envColor, 1.0);
+    colorOut = vec4(envColor, 1.0f);
 
     #if BLOOM
 //    // check whether fragment output is higher than threshold, if so output as brightness color
@@ -24,6 +24,6 @@ void main()
 //    if (brightness > BLOOM_THRESHOLD)
 //        brightColor.rgb = colorOut.rgb;
 //    else
-    brightColor.rgb = vec3(0);
+    brightColor.rgb = vec3(0.0f);
     #endif
 }
