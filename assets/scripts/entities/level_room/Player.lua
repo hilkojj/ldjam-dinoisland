@@ -22,16 +22,16 @@ function create(player)
             vertexShaderPath = "shaders/default.vert",
             fragmentShaderPath = "shaders/default.frag",
             defines = {TEST = "1"}
-        },
+        },]]--
         Rigged {
             playingAnimations = {
                 PlayAnimation {
-                    name = "testanim",
+                    name = "Walking",
                     influence = 1,
+                    loop = true
                 }
             }
         },
-        ]]--
         ShadowCaster(),
         RigidBody {
             gravity = vec3(0),
@@ -111,6 +111,7 @@ function create(player)
         })
     end
 
+    --[[
     onEntityEvent(player, "AnimationFinished", function(anim, unsub)
         print(anim.name.." has finished playing! Play it one more time but with less influence..")
         local anim = component.Rigged.getFor(player).playingAnimations[1]
@@ -123,7 +124,7 @@ function create(player)
             influence = 1.
         })
         component.RigidBody.getFor(player):dirty().gravity = vec3(0, -10, 0)
-    end)
+    end)]]--
 
     listenToGamepadButton(player, 0, gameSettings.gamepadInput.test, "test")
     onEntityEvent(player, "test_pressed", function()
