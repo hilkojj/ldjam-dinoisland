@@ -1,0 +1,44 @@
+config:
+  hpp_incl:
+    - graphics/3d/armature.h
+    - ../level/room/Room3D.h
+    - graphics/shader_asset.h
+    - set
+
+
+RenderModel:
+  modelName: std::string
+  visibilityMask: [uint, 1]
+
+CustomShader @dirtyable:
+  vertexShaderPath: std::string
+  fragmentShaderPath: std::string
+  defines: std::map<std::string, std::string>
+
+  uniformsVec4: std::map<std::string, vec4>
+  uniformsVec3: std::map<std::string, vec3>
+  uniformsVec2: std::map<std::string, vec2>
+  uniformsFloat: std::map<std::string, float>
+  uniformsInt: std::map<std::string, int>
+
+  _cpp_only:
+    shader: std::shared_ptr<ShaderAsset>
+    currentHash: size_t
+
+InstancedRendering @dirtyable:
+  transformEntities: std::set<entt::entity>
+  staticTransforms: [bool, false]
+  _cpp_only:
+    data: Room3D::ModelInstances
+
+PlayAnimation @not_a_component @json_with_keys:
+  name: std::string
+  loop: [bool, true]
+  influence: [float, 1.]
+  timer: float
+  timeMultiplier: [float, 1.]
+
+Rigged:
+  playingAnimations: std::list<PlayAnimation>
+  _cpp_only:
+    bonePoseTransform: std::unordered_map<SharedBone, mat4>

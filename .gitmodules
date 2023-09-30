@@ -1,0 +1,6 @@
+[submodule "external/dibidab-engine"]
+	path = external/dibidab-engine
+	url = https://github.com/dibidabidab/dibidab-engine.git
+[submodule "external/im3d"]
+	path = external/im3d
+	url = https://github.com/john-chapman/im3d.git
