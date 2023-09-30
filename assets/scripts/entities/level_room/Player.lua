@@ -26,7 +26,7 @@ function create(player)
         Rigged {
             playingAnimations = {
                 PlayAnimation {
-                    name = "Idle",
+                    name = "Idle2",
                     influence = 1,
                     loop = true
                 },
@@ -145,11 +145,23 @@ function create(player)
         end
 	end)
 
+    local prevAlpha = 0
     setUpdateFunction(player, 0, function(deltaTime)
         local rigged = component.Rigged.getFor(player)
         local movement = component.CharacterMovement.getFor(player)
-        rigged.playingAnimations[1].influence = 1.0 - movement.walkDirInput.y
-        rigged.playingAnimations[2].influence = movement.walkDirInput.y
+
+        local newAlpha = math.min(1.0, math.abs(movement.walkDirInput.y) + math.abs(movement.walkDirInput.x) * 0.5)
+        local blendedAlpha = newAlpha
+
+        if newAlpha < prevAlpha then
+            local timeAlpha = math.min(1.0, deltaTime * 8.0)
+            blendedAlpha = newAlpha * timeAlpha + prevAlpha * (1.0 - timeAlpha)
+        end
+
+        rigged.playingAnimations[1].influence = 1.0 - blendedAlpha
+        rigged.playingAnimations[2].influence = blendedAlpha
+
+        prevAlpha = blendedAlpha
     end)
 end
 
