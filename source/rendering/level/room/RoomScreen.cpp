@@ -69,7 +69,7 @@ RoomScreen::RoomScreen(Room3D *room, bool showRoomEditor)
             "shaders/skybox.vert", "shaders/skybox.frag"
         ),
 
-        dummyTexture(Texture::fromByteData(&dummyTexData[0], GL_RGB, 1, 1, GL_NEAREST, GL_NEAREST))
+        dummyTexture(Texture::fromByteData(&dummyTexData[0], GL_RGB8, GL_RGB, 1, 1, GL_NEAREST, GL_NEAREST))
 {
     assert(room != NULL);
 
@@ -321,7 +321,7 @@ void RoomScreen::renderDebugStuff(double deltaTime)
             tab.title += " (READ-ONLY!)";
 
             json j;
-            room->toJson(j);
+            room->exportJsonData(j);
             tab.code = j.dump(2);
             tab.languageDefinition = TextEditor::LanguageDefinition::C();
             tab.revert = [j] (auto &tab) {

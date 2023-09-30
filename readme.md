@@ -1,10 +1,10 @@
 
-#### [Download for Linux](https://hilkojj.nl/flipkaas/game-linux.zip)
-#### [Download for Windows](https://hilkojj.nl/flipkaas/game-windows.zip)
-#### [Play game in browser (CHROME RECOMMENDED *)](https://hilkojj.nl/flipkaas/game.html)
+#### [Download for Linux](https://hilkojj.nl/ldjam-dinoisland/game-linux.zip)
+#### [Download for Windows](https://hilkojj.nl/ldjam-dinoisland/game-windows.zip)
+#### [Play game in browser (CHROME RECOMMENDED *)](https://hilkojj.nl/ldjam-dinoisland/game.html)
 <sup>*less peformance, especially in Firefox, prefer the linux or windows download instead.</sup>
 
-[![Build & deploy to gh-pages](https://github.com/hilkojj/flipkaas/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/hilkojj/flipkaas/actions/workflows/build_and_deploy.yml)
+[![Build & deploy to gh-pages](https://github.com/hilkojj/ldjam-dinoisland/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/hilkojj/ldjam-dinoisland/actions/workflows/build_and_deploy.yml)
 
 ## Cloning & bulding
 

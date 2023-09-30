@@ -57,9 +57,9 @@ class Room3D : public Room
 
     static mat4 transformFromComponent(const Transform &);
 
-    virtual void toJson(json &) override;
+    virtual void exportJsonData(json &) override;
 
-    virtual void fromJson(const json &) override;
+    virtual void loadJsonData(const json &) override;
 
     ~Room3D() override;
 

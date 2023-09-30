@@ -4,6 +4,7 @@
 #include <utils/json_model_loader.h>
 #include <utils/gltf_model_loader.h>
 #include <graphics/3d/tangent_calculator.h>
+#include <ecs/systems/BehaviorTreeSystem.h>
 #include <game/dibidab.h>
 #include "Room3D.h"
 #include "../../generated/Camera.hpp"
@@ -37,6 +38,7 @@ Room3D::Room3D()
     addSystem(new CharacterMovementSystem("Character movement"));
     addSystem(new PositionedAudioSystem("Positioned audio"));
     addSystem(new CustomShaderSystem("Custom shaders"));
+    addSystem(new BehaviorTreeSystem("Behavior trees"));
 }
 
 vec3 Room3D::getPosition(entt::entity e) const
@@ -283,9 +285,9 @@ bool Room3D::loadModels(const char *path, bool force, VertBuffer **vbPtr, const 
     return true;
 }
 
-void Room3D::fromJson(const json &j)
+void Room3D::loadJsonData(const json &j)
 {
-    Room::fromJson(j);
+    Room::loadJsonData(j);
     try {
         if (j.contains("environmentMap"))
             environmentMap.set(j["environmentMap"]);
@@ -293,9 +295,9 @@ void Room3D::fromJson(const json &j)
     catch (std::exception &) {}
 }
 
-void Room3D::toJson(json &j)
+void Room3D::exportJsonData(json &j)
 {
-    Room::toJson(j);
+    Room::exportJsonData(j);
     if (environmentMap.isSet())
         j["environmentMap"] = environmentMap.getLoadedAsset().shortPath;
 }

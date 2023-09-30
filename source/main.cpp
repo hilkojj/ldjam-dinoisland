@@ -88,17 +88,20 @@ void initLuaStuff()
 int main(int argc, char *argv[])
 {
     addAssetLoaders();
+    dibidab::addDefaultAssetLoaders();
     Game::loadSettings();
 
     addAssetLoaders();
 
     Level::customRoomLoader = [] (const json &j) {
         auto *room = new Room3D;
-        room->fromJson(j);
+        room->loadJsonData(j);
         return room;
     };
+    gu::Config config;
+    config.title = "Dino Island! - Ludum Dare 54";
 
-    dibidab::init(argc, argv);
+    dibidab::init(argc, argv, config);
 
     // enable seamless cubemap sampling for lower mip levels in the pre-filter cubemap.
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
