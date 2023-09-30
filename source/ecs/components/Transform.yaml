@@ -11,3 +11,6 @@ TransformChild:
   position: [bool, true]
   rotation: [bool, true]
   scale: [bool, true]
+
+LookAt:
+  entity: [entt::entity, entt::null]

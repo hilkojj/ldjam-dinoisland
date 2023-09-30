@@ -10,6 +10,14 @@ function create(player)
     setName(player, "player")
     _G.player = player
 
+    listenToKey(player, gameSettings.keyInput.flyCamera, "fly_cam_key")
+    onEntityEvent(player, "fly_cam_key_pressed", function()
+        local cam = getByName("3rd_person_camera")
+        if valid(cam) then
+            component.ThirdPersonFollowing.remove(cam)
+        end
+    end)
+
     setComponents(player, {
         Transform {
             position = vec3(0, 100, 0)
@@ -31,7 +39,7 @@ function create(player)
         },
         ShadowCaster(),
         RigidBody {
-            gravity = vec3(0),
+            gravity = vec3(0, -30, 0),
             mass = 1,
             linearDamping = .1,
             angularAxisFactor = vec3(0),
@@ -46,10 +54,11 @@ function create(player)
         SphereColliderShape {
             radius = 1
         },
+        --[[
         GravityFieldAffected {
             gravityScale = 30,
             defaultGravity = vec3(0, -30, 0)
-        },
+        },]]--
         CharacterMovement {
             inputInCameraSpace = true,
             walkSpeed = 16
