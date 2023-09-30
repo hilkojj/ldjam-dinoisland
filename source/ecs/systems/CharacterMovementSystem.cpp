@@ -230,4 +230,23 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
             t.rotation = slerp(t.rotation, quatLookAt(camTargetDir, mu::Y), dT * 20.f);
         }
     });
+
+    room->entities.view<Transform, LookAt>().each([&] (Transform &transform, const LookAt &lookAt)
+    {
+        if (!room->entities.valid(lookAt.entity))
+        {
+            return;
+        }
+        if (const Transform *otherTransform = room->entities.try_get<Transform>(lookAt.entity))
+        {
+            vec3 diff = otherTransform->position - transform.position;
+            diff.y = 0;
+            if (length(diff) < 0.1f)
+            {
+                return;
+            }
+            diff = normalize(diff);
+            transform.rotation = glm::quatLookAt(diff, mu::Y);
+        }
+    });
 }

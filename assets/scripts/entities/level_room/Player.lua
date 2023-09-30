@@ -8,6 +8,7 @@ loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
 function create(player)
     setName(player, "player")
+    _G.player = player
 
     setComponents(player, {
         Transform {
@@ -30,7 +31,7 @@ function create(player)
         },
         ShadowCaster(),
         RigidBody {
-            gravity = vec3(0),
+            gravity = vec3(0, -30, 0),
             mass = 1,
             linearDamping = .1,
             angularAxisFactor = vec3(0),
@@ -45,10 +46,11 @@ function create(player)
         SphereColliderShape {
             radius = 1
         },
+        --[[
         GravityFieldAffected {
             gravityScale = 30,
             defaultGravity = vec3(0, -30, 0)
-        },
+        },]]--
         CharacterMovement {
             inputInCameraSpace = true,
             walkSpeed = 16
