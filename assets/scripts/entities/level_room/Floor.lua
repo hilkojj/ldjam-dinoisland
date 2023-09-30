@@ -5,28 +5,19 @@ collisionMasks = include("scripts/entities/level_room/_masks")
 
 function create(floor)
 
-    setName(floor, "floor")
+    setName(floor, "sea")
 	
 	setComponents(floor, {
 		Transform {
             position = vec3(0, 0, 0),
-            scale = vec3(100, 1, 100)
-        },
-        RigidBody {
-            mass = 0,
-            collider = Collider {
-                bounciness = 1,
-                frictionCoefficent = 1,
-                collisionCategoryBits = collisionMasks.STATIC_TERRAIN,
-                collideWithMaskBits = collisionMasks.DYNAMIC_PROPS | collisionMasks.DYNAMIC_CHARACTER,
-            }
+            scale = vec3(1000, 1, 1000)
         },
         CustomShader {
             vertexShaderPath = "shaders/default.vert",
             fragmentShaderPath = "shaders/dinoisland/water.frag"
         },
         BoxColliderShape {
-            halfExtents = vec3(100, 0, 100)
+            halfExtents = vec3(1000, 0, 1000)
         },
         RenderModel {
             modelName = "Floor"

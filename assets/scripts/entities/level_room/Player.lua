@@ -66,7 +66,7 @@ function create(player)
             }
 		},
         DirectionalLight {
-            color = vec3(-.7)
+            color = vec3(-1.0)
         },
         ShadowRenderer {
             visibilityMask = masks.PLAYER,
