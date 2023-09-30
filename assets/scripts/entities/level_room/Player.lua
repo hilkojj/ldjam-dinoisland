@@ -151,6 +151,11 @@ function create(player)
     setUpdateFunction(player, 0, function(deltaTime)
         local rigged = component.Rigged.getFor(player)
         local movement = component.CharacterMovement.getFor(player)
+        local transform = component.Transform.getFor(player)
+
+        if transform.position.y < 0 then
+            _G.queueRestartLevel = true
+        end
 
         if movement.onGround then
             if prevOnGround ~= movement.onGround then

@@ -22,8 +22,12 @@ GameScreen::GameScreen()
 
 void GameScreen::render(double deltaTime)
 {
-    if (lvlScreen)
+    if (lvlScreen) {
         lvlScreen->render(deltaTime);
+    } else {
+        glClearColor(0/255.0, 0/255.0, 0/255.0, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 
     if (!Game::uiScreenManager->noScreens())
         Game::uiScreenManager->getActiveScreen().render(deltaTime);

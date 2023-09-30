@@ -19,7 +19,7 @@ loadOrCreateLevel(_G.levelToLoad)
 setComponents(createEntity(), {
     UIElement(),
     TextView {
-        text = " Dino Island!",
+        text = " GAME OVER! press any button to continue",
         fontSprite = "sprites/ui/default_font"
     }
 })
