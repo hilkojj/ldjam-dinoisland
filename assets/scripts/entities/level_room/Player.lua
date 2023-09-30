@@ -2,6 +2,7 @@
 masks = include("scripts/entities/level_room/_masks")
 
 loadRiggedModels("assets/models/cubeman.glb", false)
+loadRiggedModels("assets/models/boy.glb", false)
 loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
@@ -13,7 +14,7 @@ function create(player)
             position = vec3(0, 1, 0)
         },
         RenderModel {
-            modelName = "SmallMan",
+            modelName = "Boy",
             visibilityMask = masks.PLAYER
         },
         --[[

@@ -9,7 +9,7 @@ GraphicsSettings @not_a_component @json_with_keys:
   imGuiFont: [string, "assets/fonts/ruda/Ruda-Bold.ttf"]
 
   gammaCorrection: [float, 2.2]
-  msaaSamples: [uint8, 4]
+  msaaSamples: [uint8, 0]
   bloomBlurIterations: [uint8, 8]
   bloomThreshold: [float, 2.5]
   shadows: [bool, true]

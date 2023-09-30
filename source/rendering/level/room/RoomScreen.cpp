@@ -209,7 +209,7 @@ void RoomScreen::onResize()
     // using GL_RGBA16F, because without the alpha channel webgl will give errors.
 
     delete fbo;
-    fbo = new FrameBuffer(gu::widthPixels, gu::heightPixels, Game::settings.graphics.msaaSamples);
+    fbo = new FrameBuffer(gu::widthPixels / 3, gu::heightPixels / 3, Game::settings.graphics.msaaSamples);
     fbo->addColorTexture(GL_RGBA16F, GL_RGBA, GL_NEAREST, GL_NEAREST, GL_FLOAT);  // normal HDR color
     if (Game::settings.graphics.bloomBlurIterations)
         fbo->addColorTexture(GL_RGBA16F, GL_RGBA, GL_NEAREST, GL_NEAREST, GL_FLOAT);  // bright HDR color, to be blurred.
@@ -221,7 +221,7 @@ void RoomScreen::onResize()
         blurPingPongFbos[i] = NULL;
         if (Game::settings.graphics.bloomBlurIterations)
         {
-            blurPingPongFbos[i] = new FrameBuffer(gu::widthPixels, gu::heightPixels);//, Game::settings.graphics.msaaSamples);
+            blurPingPongFbos[i] = new FrameBuffer(gu::widthPixels / 2, gu::heightPixels / 2);//, Game::settings.graphics.msaaSamples);
             blurPingPongFbos[i]->addColorTexture(GL_RGBA16F, GL_RGBA, GL_NEAREST, GL_NEAREST, GL_FLOAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

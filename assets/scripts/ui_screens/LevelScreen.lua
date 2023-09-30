@@ -24,7 +24,7 @@ loadOrCreateLevel(_G.levelToLoad)
 setComponents(createEntity(), {
     UIElement(),
     TextView {
-        text = "LDJam 50 - Theme ???",
+        text = " Dino Island!",
         fontSprite = "sprites/ui/default_font"
     }
 })

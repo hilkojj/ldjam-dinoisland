@@ -6,8 +6,8 @@ CameraPerspective:
 
 ThirdPersonFollowing:
   target: [entt::entity, entt::null]
-  backwardsDistance: [float, 8]
-  upwardsDistance: [float, 3]
-  minDistance: [float, 14]
+  backwardsDistance: [float, 6]
+  upwardsDistance: [float, 2]
+  minDistance: [float, 8]
   maxDistance: [float, 16]
   visibilityRayMask: int

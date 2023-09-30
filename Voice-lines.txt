@@ -1,0 +1,88 @@
+> Professor:
+Welcome to Dinosaur Island!
+
+-----------
+
+> Professor:
+Woopsie doopsie! Looks like we just travelled 60 million years back in time!
+Just before the great moment in earth's history where all dinosaurs were about to be drowned by the great flood.
+
+--------
+
+Oh, it seems I brought you along with me! Well, if you're here, could you help me collect dinosaur eggs and bring them to my ship? If you hurry, we can save the species by taking them back to the future! 
+Good luck adventurer!
+
+-----------
+
+> Professor, During gameplay:
+If you hurry, we could save the dinosaur eggs from the flood!
+-----------
+Hurry, the sea is rising!
+---------
+Maybe you can distract them with some of that smelly bird flesh you collected!
+
+--------
+> Professor, After jumping on a Dodo:
+Hmmm, I don't know the species, but it sure smells like chicken!
+---------
+> Professor, Collected dodo feathers:
+With so many feathers, I can make Dodo cupcakes!
+
+-------
+> Professor, Game over:
+Let me fiddle with this machine for a bit..
+--------
+Oh no, do I really need to do this myself?
+
+-------
+> Professor, Collected Egg:
+Omlets! Omlets! Omlets! Yum yum!
+-------
+With so many, I can start my own jurassic park!
+--------
+There you go traveller!
+
+--------
+> Professor, Game ending, positive:
+
+Oof! That was intense! It sure looks like I rescued the eggs, just in time!
+Lets take them back to the future where I can give them unlimited space!
+
+-------
+> Professor, Game ending, negative:
+
+If I would've done this, I would have collected way more!
+Anyway, lets take them back to the future, they cannot hatch here! They deserve unlimited space...
+
+---------
+> Professor, As they travel back to the future:
+Wooooooopsie doooopsie!!!
+
+--------
+> The player sounds:
+> Adventure boy, Jumping (short and fast):
+Wahoo
+-------
+Cool!
+
+------
+
+> Adventure boy, Being hit by a dodo (enemy):
+Ouch!
+-------
+Oof!
+
+--------
+
+> Adventure boy, When collected an egg:
+Jippee!
+------
+Yes, way cool!
+
+---------
+
+> Adventure boy, Drowning in the flood:
+It's sure salty!
+---------
+I don't think I should drink this.
+
