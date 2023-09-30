@@ -158,8 +158,8 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
             }
         }
 
-        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f);
-        t.rotation = rotate(t.rotation, cm.walkDirInput.x * dT * -2.f * rotateAmount, mu::Y);
+        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f) * (1.0f + (1.0f - cm.walkDirInput.y) * 0.5f);
+        t.rotation = rotate(t.rotation, cm.walkDirInput.x * dT * -4.f * rotateAmount, mu::Y);
     });
 
     room->entities.view<Transform, ThirdPersonFollowing>().each([&](auto e, Transform &t, ThirdPersonFollowing &following) {

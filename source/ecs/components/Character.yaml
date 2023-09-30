@@ -1,6 +1,6 @@
 
 CharacterMovement:
-  walkSpeed: [float, 8]
+  walkSpeed: [float, 12]
   jumpForce: [float, 1000]
   fallingForce: [float, 2000]
 

@@ -11,7 +11,7 @@ function create(player)
 
     setComponents(player, {
         Transform {
-            position = vec3(0, 1, 0)
+            position = vec3(0, 100, 0)
         },
         RenderModel {
             modelName = "Boy",
@@ -26,8 +26,13 @@ function create(player)
         Rigged {
             playingAnimations = {
                 PlayAnimation {
-                    name = "Walking",
+                    name = "Idle",
                     influence = 1,
+                    loop = true
+                },
+                PlayAnimation {
+                    name = "Walking",
+                    influence = 0,
                     loop = true
                 }
             }
@@ -40,7 +45,7 @@ function create(player)
             angularAxisFactor = vec3(0),
             collider = Collider {
                 bounciness = 0,
-                frictionCoefficent = .1,
+                frictionCoefficent = .3,
                 collisionCategoryBits = masks.DYNAMIC_CHARACTER,
                 collideWithMaskBits = masks.STATIC_TERRAIN | masks.SENSOR,
                 registerCollisions = true
@@ -54,7 +59,8 @@ function create(player)
             defaultGravity = vec3(0, -30, 0)
         },
         CharacterMovement {
-            inputInCameraSpace = true
+            inputInCameraSpace = true,
+            walkSpeed = 16
         }
         --Inspecting()
     })
@@ -73,7 +79,7 @@ function create(player)
         },
         ShadowRenderer {
             visibilityMask = masks.PLAYER,
-            resolution = ivec2(64),
+            resolution = ivec2(32),
             frustrumSize = vec2(2),
             farClipPlane = 16
         }
@@ -92,7 +98,7 @@ function create(player)
     local sun = getByName("sun")
     if valid(sun) then
         local sunRot = quat:new()
-        sunRot.x = 21
+        sunRot.x = 40
         sunRot.y = -21
         sunRot.z = 0
 
@@ -104,7 +110,7 @@ function create(player)
                 rotation = false,
                 scale = false,
                 offset = Transform {
-                    position = vec3(-67, 500, 179),
+                    position = vec3(-97, 345, 282),
                     rotation = sunRot
                 }
             }
@@ -138,5 +144,12 @@ function create(player)
             print(col.impact)
         end
 	end)
+
+    setUpdateFunction(player, 0, function(deltaTime)
+        local rigged = component.Rigged.getFor(player)
+        local movement = component.CharacterMovement.getFor(player)
+        rigged.playingAnimations[1].influence = 1.0 - movement.walkDirInput.y
+        rigged.playingAnimations[2].influence = movement.walkDirInput.y
+    end)
 end
 

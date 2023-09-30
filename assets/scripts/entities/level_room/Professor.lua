@@ -33,7 +33,7 @@ function create(prof)
                 bounciness = 0,
                 frictionCoefficent = .1,
                 collisionCategoryBits = masks.STATIC_TERRAIN,
-                collideWithMaskBits = masks.PLAYER,
+                collideWithMaskBits = masks.DYNAMIC_CHARACTER | masks.PLAYER,
                 registerCollisions = true
             }
         },

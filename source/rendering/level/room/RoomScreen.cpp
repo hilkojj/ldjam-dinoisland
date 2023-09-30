@@ -126,7 +126,7 @@ void RoomScreen::render(double deltaTime)
             if (!sr.fbo || sr.fbo->width != sr.resolution.x || sr.fbo->height != sr.resolution.y)
             {
                 sr.fbo = std::make_shared<FrameBuffer>(sr.resolution.x, sr.resolution.y);
-                sr.fbo->addDepthTexture(GL_LINEAR, GL_LINEAR);
+                sr.fbo->addDepthTexture(GL_NEAREST, GL_NEAREST);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
             }
 

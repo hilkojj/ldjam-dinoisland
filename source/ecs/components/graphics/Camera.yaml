@@ -8,6 +8,6 @@ ThirdPersonFollowing:
   target: [entt::entity, entt::null]
   backwardsDistance: [float, 6]
   upwardsDistance: [float, 2]
-  minDistance: [float, 8]
-  maxDistance: [float, 16]
+  minDistance: [float, 6]
+  maxDistance: [float, 12]
   visibilityRayMask: int
