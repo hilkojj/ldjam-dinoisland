@@ -8,6 +8,7 @@ loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
 function create(player)
     setName(player, "player")
+    _G.player = player
 
     setComponents(player, {
         Transform {

@@ -24,6 +24,10 @@ out mat3 v_TBN;
 out float v_fog;
 #endif
 
+#ifdef SHINY
+uniform float time;
+#endif
+
 void main()
 {
     #ifdef INSTANCED
@@ -32,14 +36,28 @@ void main()
 
     #endif
 
-    gl_Position = mvp * vec4(a_position, 1.0);
+    vec3 position = a_position;
+    vec3 normal = a_normal;
 
-    v_position = vec3(transform * vec4(a_position, 1.0));
+    #ifdef SHINY
+
+    position.y += sin(time * 2.f) * .2f;
+    position.x = position.x * cos(time) - position.z * sin(time);
+    position.z = position.z * cos(time) + position.x * sin(time);
+
+    normal.x = normal.x * cos(time) - normal.z * sin(time);
+    normal.z = normal.z * cos(time) + normal.x * sin(time);
+
+    #endif
+
+    gl_Position = mvp * vec4(position, 1.0);
+
+    v_position = vec3(transform * vec4(position, 1.0));
     v_textureCoord = a_textureCoord;
 
     mat3 dirTrans = mat3(transform);
 
-    vec3 normal = normalize(dirTrans * a_normal);
+    normal = normalize(dirTrans * normal);
     vec3 tangent = normalize(dirTrans * a_tangent);
     vec3 bitan = normalize(cross(normal, tangent)); // todo, is normalize needed?
 
