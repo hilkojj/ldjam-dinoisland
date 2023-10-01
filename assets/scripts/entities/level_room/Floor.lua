@@ -38,6 +38,7 @@ function create(floor)
 
     local warn = false
 
+    ----[[
     setUpdateFunction(floor, 0.05, function()
         local rise = 0.005
 
@@ -78,6 +79,6 @@ function create(floor)
                 },
             })
         end
-    end)
+    end)--]]--
 end
 

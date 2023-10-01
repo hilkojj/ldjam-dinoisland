@@ -209,7 +209,8 @@ function create(player)
         local feather = createEntity()
         applyTemplate(feather, "Feather", true)
         component.Transform.getFor(feather).position = component.Transform.getFor(player).position
-]]--
+        ]]--
+
         if _G.holdingEgg then
             local ship = getByName("ship")
             if ship ~= nil and valid(ship) and valid(_G.holdingEggEntity) then
