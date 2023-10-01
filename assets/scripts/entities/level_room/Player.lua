@@ -169,6 +169,14 @@ function create(player)
         end
     end)
 
+    listenToKey(player, gameSettings.keyInput.meal, "meal_key")
+    onEntityEvent(player, "meal_key_pressed", function()
+        local meal = createEntity()
+        applyTemplate(meal, "Meal")
+        component.Transform.getFor(meal).position = component.Transform.getFor(player).position
+        component.Transform.getFor(meal).rotation = component.Transform.getFor(player).rotation
+    end)
+
     local timeSinceLastJump = 0
     local prevAlpha = 0
     local prevOnGround = false
