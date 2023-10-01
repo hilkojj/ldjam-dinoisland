@@ -43,7 +43,7 @@ function create(meal)
     })
 
     onEntityEvent(meal, "Collision", function (col)
-        if not component.Child.has(col.otherEntity) then
+        if not component.Child.has(col.otherEntity) or component.RenderModel.has(col.otherEntity) then
             return
         end
         local dino = component.Child.getFor(col.otherEntity).parent

@@ -38,5 +38,28 @@ function create(ship)
             color = vec3(0, 10, 0)
         }
     })
+
+    --[[
+    local eggSensor = createChild(ship, "egg_sensor")
+    setName(eggSensor, "egg_sensor")
+    setComponents(eggSensor, {
+        Transform {
+
+        },
+        TransformChild {
+            parentEntity = ship
+        },
+        GhostBody {
+            collider = Collider {
+                collisionCategoryBits = masks.SENSOR,
+                collideWithMaskBits = masks.DYNAMIC_CHARACTER,
+                registerCollisions = true
+            }
+        },
+        SphereColliderShape {
+            radius = 48
+        }
+    })]]--
+
 end
 
