@@ -2,9 +2,14 @@
 masks = include("scripts/entities/level_room/_masks")
 
 loadRiggedModels("assets/models/dino.glb", false)
+loadRiggedModels("assets/models/egg.glb", false)
 loadModels("assets/models/nest.glb", false)
 
 persistenceMode(TEMPLATE | ARGS, {"Transform"})
+
+function randomFloat(lower, greater)
+    return lower + math.random()  * (greater - lower);
+end
 
 function create(dino)
     setName(dino, "dino")
@@ -61,9 +66,7 @@ function create(dino)
 
     local nest = createChild(dino, "nest")
     setComponents(nest, {
-        Transform {
-
-        },
+        Transform {},
         TransformChild {
             parentEntity = dino,
             rotation = false
@@ -71,6 +74,37 @@ function create(dino)
         RenderModel {
             modelName = "nest",
             visibilityMask = masks.NON_PLAYER
+        },
+        ShadowCaster(),
+    })
+    local egg = createChild(dino, "egg")
+    setComponents(egg, {
+        Transform {},
+        TransformChild {
+            parentEntity = dino,
+            rotation = false,
+            offset = Transform {
+                position = vec3(randomFloat(-2.5, 2.5), randomFloat(0.5, .75), randomFloat(-2.5, -2))
+            }
+        },
+        RenderModel {
+            modelName = "egg",
+            visibilityMask = masks.NON_PLAYER
+        },
+        Rigged {
+            playingAnimations = {
+                PlayAnimation {
+                    name = "idle",
+                    influence = 1,
+                    loop = true
+                }
+            }
+        },
+        CustomShader {
+            vertexShaderPath = "shaders/rigged.vert",
+            fragmentShaderPath = "shaders/default.frag",
+            defines = {DINO = "1"},
+            uniformsVec3 = {dinoColorA = vec3(0.95, 0.95, 0.9), dinoColorB = vec3(0.7, 0.2, 1)}
         },
         ShadowCaster(),
     })
