@@ -22,8 +22,10 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
 
     room->entities.view<CharacterMovement, LocalPlayer>().each([&](auto e, CharacterMovement &cm, auto) {
 
-        cm.walkDirInput.y = KeyInput::pressed(Game::settings.keyInput.walkForwards) - KeyInput::pressed(Game::settings.keyInput.walkBackwards);
-        cm.walkDirInput.x = KeyInput::pressed(Game::settings.keyInput.walkRight) - KeyInput::pressed(Game::settings.keyInput.walkLeft);
+        cm.walkDirInput.y = KeyInput::pressed(Game::settings.keyInput.walkForwards) || KeyInput::pressed(GLFW_KEY_UP); 
+        cm.walkDirInput.y -= KeyInput::pressed(Game::settings.keyInput.walkBackwards) || KeyInput::pressed(GLFW_KEY_DOWN);
+        cm.walkDirInput.x = KeyInput::pressed(Game::settings.keyInput.walkRight) || KeyInput::pressed(GLFW_KEY_RIGHT);
+        cm.walkDirInput.x -= KeyInput::pressed(Game::settings.keyInput.walkLeft) || KeyInput::pressed(GLFW_KEY_LEFT);
 
         cm.walkDirInput.x += GamepadInput::getAxis(0, Game::settings.gamepadInput.walkX);
         cm.walkDirInput.y -= GamepadInput::getAxis(0, Game::settings.gamepadInput.walkY);
@@ -96,6 +98,7 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
         vec3 currVelocity = physics.getLinearVelocity(rb);
         vec3 currVelLocal = worldToLocal * vec4(currVelocity, 0);
         bool justLanded = !cm.onGround;
+        float rotationFactor = 1.0f;
 
         if (!collisionWithGround)
         {
@@ -139,6 +142,10 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
 
             velocity = mix(currVelocity, velocity, min(1.f, dT * 10.f + justLanded));
             physics.setLinearVelocity(rb, velocity);
+            
+            rotationFactor = 1.0f;
+        } else {
+            rotationFactor = 0.5f;
         }
 
         if (cm.jumpStarted)
@@ -158,7 +165,7 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
             }
         }
 
-        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f) * (1.0f + (1.0f - cm.walkDirInput.y) * 0.5f);
+        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f) * (1.0f + (1.0f - cm.walkDirInput.y) * 0.5f) * rotationFactor;
         t.rotation = rotate(t.rotation, cm.walkDirInput.x * dT * -4.f * rotateAmount, mu::Y);
     });
 
