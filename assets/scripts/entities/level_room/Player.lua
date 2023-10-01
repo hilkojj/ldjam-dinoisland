@@ -10,6 +10,8 @@ function create(player)
     setName(player, "player")
     _G.player = player
     _G.timeSincePlayerHit = 0
+    _G.holdingEgg = false
+    _G.holdingEggEntity = nil
 
     listenToKey(player, gameSettings.keyInput.flyCamera, "fly_cam_key")
     onEntityEvent(player, "fly_cam_key_pressed", function()
@@ -232,6 +234,17 @@ function create(player)
                 }
             end
 
+        end
+        if _G.holdingEgg then
+            if rigged.playingAnimations[#rigged.playingAnimations].name ~= "HandsUp" then
+                rigged.playingAnimations[#rigged.playingAnimations + 1] = PlayAnimation {
+                    name = "HandsUp",
+                    influence = 1,
+                    loop = true
+                }
+            end
+            local eggRigged = component.Rigged.getFor(_G.holdingEggEntity)
+            eggRigged.playingAnimations[2].influence = math.abs(movement.walkDirInput.y)
         end
         prevOnGround = movement.onGround
         
