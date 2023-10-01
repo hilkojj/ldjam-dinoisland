@@ -124,6 +124,16 @@ function create(dino)
                     attacking = false
                     unsub()
                 end)
+                setComponents(createEntity(), {
+                    DespawnAfter {
+                        time = 3
+                    },
+                    SoundSpeaker {
+                        sound = "sounds/growl",
+                        volume = 0.5
+                    },
+
+                })
             end
 
         else

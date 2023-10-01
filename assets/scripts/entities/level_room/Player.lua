@@ -139,13 +139,35 @@ function create(player)
         print("epic")
     end)
 
+    local timeSinceLanding = 0
+
     onEntityEvent(player, "Collision", function (col)
-        
-        if col.otherCategoryBits & masks.STATIC_TERRAIN ~= 0 then
-            print("player hit: "..(getName(col.otherEntity) or col.otherEntity))
-            print(col.impact)
+
+        if col.otherCategoryBits & masks.STATIC_TERRAIN ~= 0 and col.impact > 10 then
+            -- hit floor
+
+            if getTime() - timeSinceLanding > .1 then
+
+                setComponents(createEntity(), {
+
+                    DespawnAfter {
+                        time = 3
+                    },
+                    SoundSpeaker {
+                        sound = "sounds/landing",
+                        volume = .1,
+                        pitch = 1.2
+                    },
+
+                })
+
+                timeSinceLanding = getTime()
+
+            end
+
+
         end
-	end)
+    end)
 
     local prevAlpha = 0
     local prevOnGround = false
