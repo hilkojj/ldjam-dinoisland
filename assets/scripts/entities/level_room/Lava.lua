@@ -6,6 +6,8 @@ collisionMasks = include("scripts/entities/level_room/_masks")
 function create(lava)
 
     setName(lava, "lava")
+
+    component.Transform.getFor(lava)
 	
 	setComponents(lava, {
         CustomShader {
@@ -21,10 +23,12 @@ function create(lava)
                 collideWithMaskBits = collisionMasks.DYNAMIC_CHARACTER | collisionMasks.DYNAMIC_PROPS
             }
         },
-        RenderModel {
-            modelName = "floor"
+        BoxColliderShape {
+            halfExtents = vec3(1000, 0.1, 1000)
         },
-        ShadowReceiver()
+        RenderModel {
+            modelName = "Floor"
+        }
 	})
 
 end

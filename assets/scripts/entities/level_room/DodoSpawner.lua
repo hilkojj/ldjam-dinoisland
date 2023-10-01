@@ -21,7 +21,10 @@ function create(spawner)
     local function spawnDodo()
         local dodo = createChild(spawner, "spawned_dodo")
         applyTemplate(dodo, "Dodo")
-        component.Transform.getFor(dodo).position = component.Transform.getFor(spawner).position
+        local spawnerTransform = component.Transform.getFor(spawner)
+        component.Transform.getFor(dodo).position = spawnerTransform.position
+        local dodoMovement = component.CharacterMovement.getFor(dodo)
+        dodoMovement.walkSpeed = dodoMovement.walkSpeed * (0.8 + 0.7 * math.max(0, math.min(1, spawnerTransform.position.y / 100.0)))
     end
 
     spawnDodo()
@@ -31,6 +34,9 @@ function create(spawner)
             return
         end
         local spawnerTransform = component.Transform.getFor(spawner)
+        if _G.seaHeight > spawnerTransform.position.y then
+            return
+        end
         local playerTransform = component.Transform.getFor(_G.player)
 
         local posDiff = playerTransform.position - spawnerTransform.position

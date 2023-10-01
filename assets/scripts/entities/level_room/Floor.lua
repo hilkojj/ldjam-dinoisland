@@ -32,13 +32,11 @@ function create(floor)
         },
         RenderModel {
             modelName = "Floor"
-        },
-        ShadowReceiver()
+        }
 	})
 
     local warn = false
 
-    ----[[
     setUpdateFunction(floor, 0.05, function()
         local rise = 0.005
 
@@ -59,12 +57,6 @@ function create(floor)
 
         floorTransform.position.y = floorTransform.position.y + rise
         _G.seaHeight = floorTransform.position.y
-
-        if _G.seaHeight > 73 then
-            -- outro!
-            setUpdateFunction(floor, 0, nil)
-            warn = false
-        end
     end)
 
     setUpdateFunction(createEntity(), 15, function()
@@ -79,6 +71,6 @@ function create(floor)
                 },
             })
         end
-    end)--]]--
+    end)
 end
 
