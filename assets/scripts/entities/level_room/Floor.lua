@@ -16,8 +16,17 @@ function create(floor)
             vertexShaderPath = "shaders/default.vert",
             fragmentShaderPath = "shaders/dinoisland/water.frag"
         },
+        RigidBody {
+            mass = 0,
+            collider = Collider {
+                bounciness = 1,
+                frictionCoefficent = 0.2,
+                collisionCategoryBits = collisionMasks.WATER,
+                collideWithMaskBits = collisionMasks.DYNAMIC_CHARACTER | collisionMasks.DYNAMIC_PROPS
+            }
+        },
         BoxColliderShape {
-            halfExtents = vec3(1000, 0, 1000)
+            halfExtents = vec3(1000, 0.1, 1000)
         },
         RenderModel {
             modelName = "Floor"

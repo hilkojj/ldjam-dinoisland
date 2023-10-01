@@ -155,7 +155,7 @@ function create(player)
                     },
                     SoundSpeaker {
                         sound = "sounds/landing",
-                        volume = .1,
+                        volume = .2,
                         pitch = 1.2
                     },
 
