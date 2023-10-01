@@ -9,6 +9,7 @@ loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 function create(player)
     setName(player, "player")
     _G.player = player
+    _G.timeSincePlayerHit = 0
 
     listenToKey(player, gameSettings.keyInput.flyCamera, "fly_cam_key")
     onEntityEvent(player, "fly_cam_key_pressed", function()
@@ -149,6 +150,8 @@ function create(player)
     local prevAlpha = 0
     local prevOnGround = false
     setUpdateFunction(player, 0, function(deltaTime)
+        _G.timeSincePlayerHit = _G.timeSincePlayerHit + deltaTime
+
         local rigged = component.Rigged.getFor(player)
         local movement = component.CharacterMovement.getFor(player)
         local transform = component.Transform.getFor(player)

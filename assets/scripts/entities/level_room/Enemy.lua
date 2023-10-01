@@ -9,7 +9,6 @@ function create(enemy, args)
     playerGravity = vec3(0)
     playerWalkSpeed = 0
     playerJumpForce = 0
-    timeSincePlayerHit = 0
 
     local enemyUpdate = nil
     enemyUpdate = function(deltaTime)
@@ -23,10 +22,7 @@ function create(enemy, args)
         local posDiff2d = vec3(posDiff.x, 0, posDiff.z)
         local distance = posDiff:length()
         local distance2d = posDiff2d:length()
-
-        timeSincePlayerHit = timeSincePlayerHit + deltaTime
-
-        if timeSincePlayerHit > 2 then
+        if _G.timeSincePlayerHit > 2 then
 
             local playerMovement = component.CharacterMovement.getFor(player)
             local playerBody = component.RigidBody.getFor(player):dirty()
@@ -34,7 +30,7 @@ function create(enemy, args)
 
             if distance2d < args.hitDistance and distance > 0.01 and playerOnGround then
 
-                timeSincePlayerHit = 0
+                _G.timeSincePlayerHit = 0
                 playerGravity = vec3(playerBody.gravity.x, playerBody.gravity.y, playerBody.gravity.z)
                 playerBody.gravity = vec3(posDiff.x / distance,
                         posDiff.y / distance,
