@@ -51,6 +51,7 @@ function create(player)
         },
         ShadowCaster(),
         RigidBody {
+            allowSleep = false,
             gravity = vec3(0, -30, 0),
             mass = 1,
             linearDamping = .1,
@@ -203,6 +204,12 @@ function create(player)
 
     listenToKey(player, gameSettings.keyInput.meal, "meal_key")
     onEntityEvent(player, "meal_key_pressed", function()
+
+        --[[
+        local feather = createEntity()
+        applyTemplate(feather, "Feather", true)
+        component.Transform.getFor(feather).position = component.Transform.getFor(player).position
+]]--
         if _G.holdingEgg then
             local ship = getByName("ship")
             if ship ~= nil and valid(ship) and valid(_G.holdingEggEntity) then

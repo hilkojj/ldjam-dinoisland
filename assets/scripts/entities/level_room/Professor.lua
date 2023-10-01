@@ -57,7 +57,7 @@ function create(prof)
     component.TransformChild.getFor(ship).parentEntity = prof
     component.TransformChild.getFor(ship).offset.position = vec3(0, -2, 0)
 
-    setUpdateFunction(prof, 0.05, function(deltaTime)
+    setUpdateFunction(prof, 0.0, function(deltaTime)
         local profTransform = component.Transform.getFor(prof)
 
         for i = 2, #_G.shipCheckpoints do
