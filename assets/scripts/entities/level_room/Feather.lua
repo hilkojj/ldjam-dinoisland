@@ -68,7 +68,29 @@ function create(feather)
     onEntityEvent(feather, "Collision", function (col)
 
 		if col.otherEntity == _G.player and not hit and #col.contactPoints > 0 then
-            hit = true    
+            hit = true
+            _G.featherScore = _G.featherScore + 1
+
+            setComponents(createEntity(), {
+                DespawnAfter {
+                    time = 5
+                },
+                SoundSpeaker {
+                    sound = "sounds/feather",
+                    volume = 4.0
+                },
+            })
+            if _G.featherScore == 3 then
+                setComponents(createEntity(), {
+                    DespawnAfter {
+                        time = 10
+                    },
+                    SoundSpeaker {
+                        sound = "sounds/voicelines/professor_reaction_feather",
+                        volume = .5
+                    },
+                })
+            end
 
             local trans = component.Transform.getFor(feather)
             local originalPos = vec3(trans.position.x, trans.position.y, trans.position.z) -- TODO: jam hack, to prevent saving changed position

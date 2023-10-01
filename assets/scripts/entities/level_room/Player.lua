@@ -6,14 +6,21 @@ loadRiggedModels("assets/models/boy.glb", false)
 loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
-local eggThrowMaxDistance = 48
+_G.eggThrowMaxDistance = 64
 
 function create(player)
+
     setName(player, "player")
     _G.player = player
     _G.timeSincePlayerHit = 0
     _G.holdingEgg = false
     _G.holdingEggEntity = nil
+    _G.mealsToThrow = 0
+    _G.featherScore = 0
+    _G.timesHitByDino = 0
+
+    local prof = createEntity()
+    applyTemplate(prof, "Professor")
 
     listenToKey(player, gameSettings.keyInput.flyCamera, "fly_cam_key")
     onEntityEvent(player, "fly_cam_key_pressed", function()
@@ -44,6 +51,7 @@ function create(player)
         },
         ShadowCaster(),
         RigidBody {
+            allowSleep = false,
             gravity = vec3(0, -30, 0),
             mass = 1,
             linearDamping = .1,
@@ -205,6 +213,12 @@ function create(player)
 
     listenToKey(player, gameSettings.keyInput.meal, "meal_key")
     onEntityEvent(player, "meal_key_pressed", function()
+
+        --[[
+        local feather = createEntity()
+        applyTemplate(feather, "Feather", true)
+        component.Transform.getFor(feather).position = component.Transform.getFor(player).position
+]]--
         if _G.holdingEgg then
             local ship = getByName("ship")
             if ship ~= nil and valid(ship) and valid(_G.holdingEggEntity) then
@@ -216,7 +230,7 @@ function create(player)
                 local distance = posDiff:length()
                 local distance2d = posDiff2d:length()
 
-                if distance2d < eggThrowMaxDistance then
+                if distance2d < _G.eggThrowMaxDistance then
                     -- throw egg
                     local egg = _G.holdingEggEntity
                     local halfWayPoint = (playerTransform.position + shipTransform.position) * vec3(0.5) + vec3(0, 12, 0)
@@ -228,6 +242,15 @@ function create(player)
                     if rigged.playingAnimations[#rigged.playingAnimations].name == "HandsUp" then
                         rigged.playingAnimations[#rigged.playingAnimations].influence = 0
                     end
+                    setComponents(createEntity(), {
+                        DespawnAfter {
+                            time = 10
+                        },
+                        SoundSpeaker {
+                            sound = "sounds/voicelines/professor_reaction_egg_"..math.random(1,3),
+                            volume = .5
+                        },
+                    })
                     component.TransformChild.remove(egg)
                     component.Transform.animate(egg, "position", halfWayPoint, 0.8, "pow2In", function()
                         component.Transform.animate(egg, "position", shipEndPoint, 0.8, "pow2Out", function()
@@ -245,10 +268,14 @@ function create(player)
 
             return
         end
+        if _G.mealsToThrow <= 0 then
+            return
+        end
         local meal = createEntity()
         applyTemplate(meal, "Meal")
         component.Transform.getFor(meal).position = component.Transform.getFor(player).position
         component.Transform.getFor(meal).rotation = component.Transform.getFor(player).rotation
+        _G.mealsToThrow = _G.mealsToThrow - 1
     end)
 
     local timeSinceLastJump = 0
@@ -263,7 +290,7 @@ function create(player)
         local movement = component.CharacterMovement.getFor(player)
         local transform = component.Transform.getFor(player)
 
-        if transform.position.y < 0 then
+        if transform.position.y < _G.seaHeight - 1 then
             _G.queueRestartLevel = true
         end
 

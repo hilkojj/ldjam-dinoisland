@@ -3,6 +3,10 @@ masks = include("scripts/entities/level_room/_masks")
 
 loadRiggedModels("assets/models/dodo.glb", false)
 
+function randomFloat(lower, greater)
+    return lower + math.random()  * (greater - lower);
+end
+
 function create(dodo)
     setName(dodo, "dodo")
 
@@ -64,12 +68,23 @@ function create(dodo)
 
         if not dodoHit and prevYDiff > posDiff.y and posDiff.y > 1 and posDiff.y < 2 and distance2d < 2 then
             dodoHit = true
+            setComponents(createEntity(), {
+                DespawnAfter {
+                    time = 5
+                },
+                SoundSpeaker {
+                    sound = "sounds/blood/long",
+                    pitch = randomFloat(0.7, 1.3),
+                    volume = 1.5
+                },
+            })
             component.Rigged.getFor(dodo).playingAnimations[1].timeMultiplier = 0
             component.Transform.animate(dodo, "scale", vec3(1, 0.1, 1), 0.1, "pow2Out", function()
                 component.DespawnAfter.getFor(dodo).time = 1.0
             end)
             component.SphereColliderShape.getFor(dodo):dirty().radius = 0.1
             enemyArgs.hitDistance = 0
+            _G.mealsToThrow = _G.mealsToThrow + 1
         end
 
         local alarmed = distance < 10 and not dodoHit

@@ -27,7 +27,7 @@ function create(levelRestarter)
                 })
             end
 
-            if updatesSindsRestart >= 10 then
+            if updatesSindsRestart >= 25 then
                 restartLevel() -- replace with gameOver later
                 _G.queueRestartLevel = false
             end

@@ -160,8 +160,30 @@ function create(dino)
                         loop = false
                     }
                 }
+                _G.timesHitByDino = _G.timesHitByDino + 1
                 setTimeout(dino, 3, function()
                     attacking = false
+                    if _G.mealsToThrow > 0 and _G.timesHitByDino % 2 == 1 then
+                        setComponents(createEntity(), {
+                            DespawnAfter {
+                                time = 10
+                            },
+                            SoundSpeaker {
+                                sound = "sounds/voicelines/professor_bird_tip",
+                                volume = 0.8
+                            },
+                        })
+                    elseif math.random() > 0.2 then
+                        setComponents(createEntity(), {
+                            DespawnAfter {
+                                time = 10
+                            },
+                            SoundSpeaker {
+                                sound = "sounds/voicelines/professor_reaction_5",
+                                volume = 0.8
+                            },
+                        })
+                    end
                 end)
                 onEntityEvent(dino, "AnimationFinished", function(anim, unsub)
                     resetAnims()
