@@ -70,6 +70,7 @@ function create(dodo)
             end)
             component.SphereColliderShape.getFor(dodo):dirty().radius = 0.1
             enemyArgs.hitDistance = 0
+            _G.mealsToThrow = _G.mealsToThrow + 1
         end
 
         local alarmed = distance < 10 and not dodoHit

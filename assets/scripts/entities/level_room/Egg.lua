@@ -11,6 +11,12 @@ function create(egg)
     setName(egg, "egg")
 
     local dir = vec3(randomFloat(-1, 1), 0.01, randomFloat(-1, 1))
+    if dir.z > -0.5 and dir.z < 0 then
+        dir.z = -0.5
+    end
+    if dir.z < 0.5 and dir.z >= 0 then
+        dir.z = 0.5
+    end
     local dirLen = dir:length()
     dir = vec3(dir.x / dirLen, 0, dir.z / dirLen)
 

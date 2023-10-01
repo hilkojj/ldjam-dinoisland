@@ -20,10 +20,18 @@ function create(prof)
                     name = "Idle",
                     influence = 1,
                     loop = true
+                },
+                PlayAnimation {
+                    name = "Jumping",
+                    influence = 0,
+                    loop = true
                 }
             }
         },
         ShadowCaster(),
+        LookAt {
+            entity = _G.player
+        },
         --[[
         RigidBody {
             gravity = vec3(0, -30, 0),
@@ -49,12 +57,12 @@ function create(prof)
     component.TransformChild.getFor(ship).parentEntity = prof
     component.TransformChild.getFor(ship).offset.position = vec3(0, -2, 0)
 
-    setUpdateFunction(prof, 0.1, function()
+    setUpdateFunction(prof, 0.05, function(deltaTime)
+        local profTransform = component.Transform.getFor(prof)
+
         for i = 2, #_G.shipCheckpoints do
             local aTransform = component.Transform.getFor(_G.shipCheckpoints[i - 1])
             local bTransform = component.Transform.getFor(_G.shipCheckpoints[i])
-
-            print(bTransform.position.y, _G.seaHeight)
 
             if bTransform.position.y > _G.seaHeight then
 
@@ -66,13 +74,36 @@ function create(prof)
 
                 local abDiff = bTransform.position - aTransform.position
 
-                local profTransform = component.Transform.getFor(prof)
 
                 profTransform.position = aTransform.position + abDiff * vec3(alpha) + vec3(0, 2.3, 0)
 
                 break
             end
         end
+
+        if _G.player == nil or not valid(_G.player) or not component.CharacterMovement.has(_G.player) then
+            return
+        end
+        local playerTransform = component.Transform.getFor(_G.player)
+
+        local posDiff = playerTransform.position - profTransform.position
+        local posDiff2d = vec3(posDiff.x, 0, posDiff.z)
+        local distance = posDiff:length()
+        local distance2d = posDiff2d:length()
+
+        local rigged = component.Rigged.getFor(prof)
+        local alpha = rigged.playingAnimations[2].influence
+
+        local mul = -1
+
+        if distance2d < _G.eggThrowMaxDistance and _G.holdingEgg then
+            mul = 1
+        end
+
+        alpha = math.max(0, math.min(1, alpha + deltaTime * mul * 5))
+
+        rigged.playingAnimations[1].influence = 1 - alpha
+        rigged.playingAnimations[2].influence = alpha
     end)
 end
 

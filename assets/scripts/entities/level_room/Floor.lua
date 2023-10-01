@@ -37,7 +37,7 @@ function create(floor)
 	})
 
     setUpdateFunction(floor, 0.05, function()
-        local rise = 0.01
+        local rise = 0.005
 
         local floorTransform = component.Transform.getFor(floor)
 
@@ -47,8 +47,8 @@ function create(floor)
 
             if playerMovement.onGround then
                 local yDiff = playerTransform.position.y - floorTransform.position.y
-                if yDiff > 8 then
-                    rise = rise + 0.03
+                if yDiff > 5 then
+                    rise = rise + 0.045
                 end
             end
         end
