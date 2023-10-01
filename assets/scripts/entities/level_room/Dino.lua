@@ -2,6 +2,7 @@
 masks = include("scripts/entities/level_room/_masks")
 
 loadModels("assets/models/dino.glb", false)
+loadModels("assets/models/nest.glb", false)
 
 persistenceMode(TEMPLATE | ARGS, {"Transform"})
 
@@ -39,6 +40,22 @@ function create(dino)
         SphereColliderShape {
             radius = 0.8
         }
+    })
+
+    local nest = createChild(dino, "nest")
+    setComponents(nest, {
+        Transform {
+
+        },
+        TransformChild {
+            parentEntity = dino,
+            rotation = false
+        },
+        RenderModel {
+            modelName = "nest",
+            visibilityMask = masks.NON_PLAYER
+        },
+        ShadowCaster(),
     })
 
 end
