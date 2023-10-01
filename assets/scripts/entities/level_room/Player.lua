@@ -18,6 +18,7 @@ function create(player)
     _G.mealsToThrow = 0
     _G.featherScore = 0
     _G.timesHitByDino = 0
+    _G.dodosKilled = 0
 
     local prof = createEntity()
     applyTemplate(prof, "Professor")
@@ -215,11 +216,10 @@ function create(player)
     onEntityEvent(player, "meal_key_pressed", function()
 
         --[[
-        local feather = createEntity()
-        applyTemplate(feather, "Feather", true)
-        component.Transform.getFor(feather).position = component.Transform.getFor(player).position
-        ]]--
-
+        local spawner = createEntity()
+        applyTemplate(spawner, "DodoSpawner", true)
+        component.Transform.getFor(spawner).position = component.Transform.getFor(player).position + vec3(0, 2, 0)
+]]--
         if _G.holdingEgg then
             local ship = getByName("ship")
             if ship ~= nil and valid(ship) and valid(_G.holdingEggEntity) then

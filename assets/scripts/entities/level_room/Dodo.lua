@@ -68,6 +68,18 @@ function create(dodo)
 
         if not dodoHit and prevYDiff > posDiff.y and posDiff.y > 1 and posDiff.y < 2 and distance2d < 2 then
             dodoHit = true
+            _G.dodosKilled = _G.dodosKilled + 1
+            if _G.dodosKilled == 1 then
+                setComponents(createEntity(), {
+                    DespawnAfter {
+                        time = 10
+                    },
+                    SoundSpeaker {
+                        sound = "sounds/voicelines/professor_reaction_bird",
+                        volume = .7
+                    },
+                })
+            end
             setComponents(createEntity(), {
                 DespawnAfter {
                     time = 5
@@ -87,7 +99,7 @@ function create(dodo)
             _G.mealsToThrow = _G.mealsToThrow + 1
         end
 
-        local alarmed = distance < 10 and not dodoHit
+        local alarmed = distance < 12 and not dodoHit
 
         if alarmed and _G.timeSincePlayerHit > 2 then
             timeSinceAlarmed = timeSinceAlarmed + deltaTime

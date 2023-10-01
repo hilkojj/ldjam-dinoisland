@@ -9,10 +9,11 @@ layout (location = 1) out vec3 brightColor;
 in vec3 localPos;
 
 uniform samplerCube skyBox;
+uniform float seaHeight;
 
 void main()
 {
-    vec3 envColor = vec3(0.1f, 0.7f, 4.0f);
+    vec3 envColor = mix(vec3(0.1f, 0.7f, 4.0f), vec3(0.15, 0, 0), seaHeight / 75.0f);
 
 //    envColor = pow(envColor, vec3(1.0f / GAMMA));
 
