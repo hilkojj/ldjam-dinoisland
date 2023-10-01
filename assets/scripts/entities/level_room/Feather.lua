@@ -80,7 +80,7 @@ function create(feather)
                     volume = 4.0
                 },
             })
-            if _G.featherScore == 3 then
+            if _G.featherScore == 8 and _G.featherScore == 20 and _G.featherScore == 35 then
                 setComponents(createEntity(), {
                     DespawnAfter {
                         time = 10
@@ -96,7 +96,8 @@ function create(feather)
             local originalPos = vec3(trans.position.x, trans.position.y, trans.position.z) -- TODO: jam hack, to prevent saving changed position
             local playerTrans = component.Transform.getFor(player)
             local dir = playerTrans.position - trans.position
-            
+
+            --[[
             component.Transform.animate(feather, "scale", vec3(1.5), .2, "pow2In")
             -- component.Transform.animate(feather, "position", trans.position + dir * vec3(.5), .1, "pow2Out")
 
@@ -114,6 +115,8 @@ function create(feather)
 
                 end)
             end)
+            ]]--
+            hide(feather)
 
         end
 	end)
