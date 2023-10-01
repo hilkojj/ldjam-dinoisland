@@ -91,6 +91,15 @@ function create(player)
         }
     })
 
+    -- TODO: enable to play music
+    -- setComponents(createEntity(), {
+    --     SoundSpeaker {
+    --         sound = "sounds/background_music",
+    --         volume = 0.8,
+    --         looping = true,
+    --     },
+    -- })
+
     local cam = getByName("3rd_person_camera")
     if valid(cam) then
         setComponents(cam, {

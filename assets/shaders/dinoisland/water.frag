@@ -136,12 +136,12 @@ void main()
 
     vec2 waterScale1 = vec2(0.5, 0.05);
     vec2 waterScale2 = vec2(0.1, 0.1);
-    vec2 waterScroling = vec2(-time, 0.01);
-    float waterfomeScale = time * 0.3;
+    vec2 waterScroling = vec2(-time * 1.8, 0.01);
+    float waterfomeScale = time * 0.4;
 
     vec3 pos_seaScolling_fome1 = vec3((v_position.xz * waterScale1 + waterScroling), waterfomeScale);
     vec3 pos_seaScolling_fome2 = vec3((v_position.zx * waterScale2 + waterScroling * 0.3) * 3.5, waterfomeScale);
-    float gradient = 0.8 *noise(pos_seaScolling_fome1) + 0.2 * noise(pos_seaScolling_fome2);
+    float gradient = noise(pos_seaScolling_fome1) + 0.2 * noise(pos_seaScolling_fome2);
 
     // gamma correction:
     colorOut.rgb = mix3(color_1, color_2, color_3, gradient);
