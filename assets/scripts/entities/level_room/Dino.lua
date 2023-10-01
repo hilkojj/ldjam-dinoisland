@@ -164,7 +164,7 @@ function create(dino)
                     },
                     SoundSpeaker {
                         sound = "sounds/growl",
-                        volume = 0.5
+                        volume = 0.8
                     },
 
                 })

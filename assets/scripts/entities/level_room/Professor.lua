@@ -26,14 +26,14 @@ function create(prof)
         },
         ShadowCaster(),
         RigidBody {
-            gravity = vec3(0),
-            mass = 0,
+            gravity = vec3(0, -30, 0),
+            mass = 1,
             angularAxisFactor = vec3(0),
             collider = Collider {
                 bounciness = 0,
                 frictionCoefficent = .1,
-                collisionCategoryBits = masks.STATIC_TERRAIN,
-                collideWithMaskBits = masks.DYNAMIC_CHARACTER | masks.PLAYER,
+                collisionCategoryBits = masks.DYNAMIC_CHARACTER,
+                collideWithMaskBits = masks.STATIC_TERRAIN | masks.SENSOR | masks.WATER,
                 registerCollisions = true
             }
         },
@@ -42,6 +42,11 @@ function create(prof)
             sphereDistance = 2
         }
     })
+
+    local ship = createChild(prof, "ship")
+    applyTemplate(ship, "Ship")
+    component.TransformChild.getFor(ship).parentEntity = prof
+    component.TransformChild.getFor(ship).offset.position = vec3(0, -2, 0)
 
 end
 
