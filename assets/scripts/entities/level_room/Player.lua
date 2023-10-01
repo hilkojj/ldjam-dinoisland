@@ -169,10 +169,13 @@ function create(player)
         end
     end)
 
+    local timeSinceLastJump = 0
     local prevAlpha = 0
     local prevOnGround = false
     setUpdateFunction(player, 0, function(deltaTime)
         _G.timeSincePlayerHit = _G.timeSincePlayerHit + deltaTime
+        timeSinceLastJump = timeSinceLastJump + deltaTime
+
 
         local rigged = component.Rigged.getFor(player)
         local movement = component.CharacterMovement.getFor(player)
@@ -223,6 +226,25 @@ function create(player)
 
         end
         prevOnGround = movement.onGround
+        
+    end)
+
+
+    listenToKey(player, gameSettings.keyInput.jump, "jump_key")
+    onEntityEvent(player, "jump_key_pressed", function()
+        if timeSinceLastJump > 3.0 then
+            timeSinceLastJump = 0
+            setComponents(createEntity(), {
+                DespawnAfter {
+                    time = 3
+                },
+                SoundSpeaker {
+                    sound = "sounds/voicelines/boy_happy_"..math.random(1,6),
+                    volume = .5,
+                    pitch = 1.2
+                },
+            })
+        end
     end)
 end
 

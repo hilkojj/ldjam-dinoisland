@@ -36,6 +36,17 @@ function create(enemy, args)
                         posDiff.y / distance,
                         posDiff.z / distance) * vec3(30) + vec3(0, 50, 0)
 
+                setComponents(createEntity(), {
+                    DespawnAfter {
+                        time = 3
+                    },
+                    SoundSpeaker {
+                        sound = "sounds/voicelines/boy_hurt_"..math.random(1,2),
+                        volume = .7,
+                        pitch = 1.2
+                    },
+                })
+
                 if playerMovement.walkSpeed > 0 then
                     playerWalkSpeed = playerMovement.walkSpeed
                     playerJumpForce = playerMovement.jumpForce
