@@ -41,7 +41,7 @@ function create(dodo)
             radius = 0.8
         },
         CharacterMovement {
-            walkSpeed = 16
+            walkSpeed = 18
         }
     })
 
@@ -132,6 +132,7 @@ function create(dodo)
                 component.CharacterMovement.getFor(dodo).walkDirInput.y = 0
             end
             component.LookAt.getFor(dodo).entity = _G.player
+            component.LookAt.getFor(dodo).speed = 100
         else
             component.CharacterMovement.getFor(dodo).walkDirInput.y = 0
             component.LookAt.remove(dodo)
@@ -149,5 +150,7 @@ function create(dodo)
             }
         }
     end)
+
+    applyTemplate(dodo, "Enemy")
 end
 

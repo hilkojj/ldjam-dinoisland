@@ -246,7 +246,7 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
                 return;
             }
             diff = normalize(diff);
-            transform.rotation = glm::quatLookAt(diff, mu::Y);
+            transform.rotation = glm::slerp<float>(transform.rotation, glm::quatLookAt(diff, mu::Y), min<float>(1.0f, deltaTime * lookAt.speed));
         }
     });
 }

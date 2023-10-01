@@ -38,8 +38,9 @@ in mat3 v_TBN;
 in float v_fog;
 #endif
 
-#ifdef TEST
-uniform vec3 testColor;
+#ifdef DINO
+uniform vec3 dinoColorA;
+uniform vec3 dinoColorB;
 #endif
 
 layout (location = 0) out vec4 colorOut;
@@ -261,6 +262,9 @@ void main()
     {
         vec4 albedoAlpha = texture(diffuseTexture, v_textureCoord);
         albedo = albedoAlpha.rgb;
+        #ifdef DINO
+        albedo = mix(dinoColorA, dinoColorB, albedo.r);
+        #endif
         if (albedoAlpha.a < .5)
             discard;
         albedo = pow(albedo, vec3(GAMMA)); // sRGB to linear space. https://learnopengl.com/Advanced-Lighting/Gamma-Correction
