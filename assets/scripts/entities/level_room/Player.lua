@@ -16,6 +16,8 @@ function create(player)
     _G.holdingEgg = false
     _G.holdingEggEntity = nil
     _G.mealsToThrow = 0
+    _G.featherScore = 0
+    _G.timesHitByDino = 0
 
     local prof = createEntity()
     applyTemplate(prof, "Professor")
@@ -224,6 +226,15 @@ function create(player)
                     if rigged.playingAnimations[#rigged.playingAnimations].name == "HandsUp" then
                         rigged.playingAnimations[#rigged.playingAnimations].influence = 0
                     end
+                    setComponents(createEntity(), {
+                        DespawnAfter {
+                            time = 10
+                        },
+                        SoundSpeaker {
+                            sound = "sounds/voicelines/professor_reaction_egg_"..math.random(1,3),
+                            volume = .5
+                        },
+                    })
                     component.TransformChild.remove(egg)
                     component.Transform.animate(egg, "position", halfWayPoint, 0.8, "pow2In", function()
                         component.Transform.animate(egg, "position", shipEndPoint, 0.8, "pow2Out", function()
