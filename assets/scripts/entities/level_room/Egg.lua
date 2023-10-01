@@ -51,7 +51,7 @@ function create(egg)
             }
         },
         SphereColliderShape {
-            radius = 1
+            radius = 1.5
         },
     })
 

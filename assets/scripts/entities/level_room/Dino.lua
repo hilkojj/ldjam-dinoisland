@@ -77,7 +77,7 @@ function create(dino)
         ShadowCaster(),
     })
 
-    for i = 1,3 do
+    for i = 1,4 do
         local egg = createChild(dino, "egg"..i)
         applyTemplate(egg, "Egg")
         component.TransformChild.getFor(egg).parentEntity = dino

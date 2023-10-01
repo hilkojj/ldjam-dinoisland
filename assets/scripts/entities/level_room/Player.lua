@@ -6,6 +6,8 @@ loadRiggedModels("assets/models/boy.glb", false)
 loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
+local eggThrowMaxDistance = 48
+
 function create(player)
     setName(player, "player")
     _G.player = player
@@ -166,13 +168,74 @@ function create(player)
                 timeSinceLanding = getTime()
 
             end
-
-
         end
     end)
 
+    _G.eggCounter = 0
+    local eggOffsets = {
+        vec3(3, 1, 0),
+        vec3(3.9, 0.8, 0),
+        vec3(2.1, 0.9, 0),
+
+        vec3(3, 1, 1),
+        vec3(3.9, 0.8, 1),
+        vec3(2.1, 0.9, 1),
+
+        vec3(3, 1, -1),
+        vec3(3.9, 0.8, -1),
+        vec3(2.1, 0.9, -1),
+
+        vec3(2.5, 1.8, -0.5),
+        vec3(3.5, 1.8, -0.5),
+
+        vec3(2.5, 1.8, 0.5),
+        vec3(3.5, 1.8, 0.5),
+
+        vec3(3, 2.6, 0),
+    }
+
     listenToKey(player, gameSettings.keyInput.meal, "meal_key")
     onEntityEvent(player, "meal_key_pressed", function()
+        if _G.holdingEgg then
+            local ship = getByName("ship")
+            if ship ~= nil and valid(ship) and valid(_G.holdingEggEntity) then
+                local shipTransform = component.Transform.getFor(ship)
+                local playerTransform = component.Transform.getFor(player)
+
+                local posDiff = playerTransform.position - shipTransform.position
+                local posDiff2d = vec3(posDiff.x, 0, posDiff.z)
+                local distance = posDiff:length()
+                local distance2d = posDiff2d:length()
+
+                if distance2d < eggThrowMaxDistance then
+                    -- throw egg
+                    local egg = _G.holdingEggEntity
+                    local halfWayPoint = (playerTransform.position + shipTransform.position) * vec3(0.5) + vec3(0, 12, 0)
+                    local shipEndPoint = vec3(shipTransform.position.x, shipTransform.position.y, shipTransform.position.z)
+                    -- set speed of boat to 0.
+                    _G.holdingEgg = false
+                    _G.holdingEggEntity = nil
+                    local rigged = component.Rigged.getFor(player)
+                    if rigged.playingAnimations[#rigged.playingAnimations].name == "HandsUp" then
+                        rigged.playingAnimations[#rigged.playingAnimations].influence = 0
+                    end
+                    component.TransformChild.remove(egg)
+                    component.Transform.animate(egg, "position", halfWayPoint, 0.8, "pow2In", function()
+                        component.Transform.animate(egg, "position", shipEndPoint, 0.8, "pow2Out", function()
+                            _G.eggCounter = _G.eggCounter + 1
+                            if _G.eggCounter > #eggOffsets then
+                                component.DespawnAfter.getFor(egg).time = 0
+                            else
+                                component.TransformChild.getFor(egg).parentEntity = ship
+                                component.TransformChild.getFor(egg).offset.position = eggOffsets[_G.eggCounter]
+                            end
+                        end)
+                    end)
+                end
+            end
+
+            return
+        end
         local meal = createEntity()
         applyTemplate(meal, "Meal")
         component.Transform.getFor(meal).position = component.Transform.getFor(player).position
