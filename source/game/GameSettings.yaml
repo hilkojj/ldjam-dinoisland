@@ -40,6 +40,8 @@ KeyInputSettings @not_a_component @json_with_keys:
   walkRight: [KeyInput::Key, GLFW_KEY_D]
   jump: [KeyInput::Key, GLFW_KEY_SPACE]
 
+  meal: [KeyInput::Key, GLFW_KEY_E]
+
   flyCamera: [KeyInput::Key, GLFW_KEY_F9]
   retryLevel: [KeyInput::Key, GLFW_KEY_F10]
   stopFlyingCamera: [KeyInput::Key, GLFW_KEY_ESCAPE]

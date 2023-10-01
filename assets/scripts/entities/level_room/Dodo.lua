@@ -44,6 +44,7 @@ function create(dodo)
             walkSpeed = 18
         }
     })
+    local enemyArgs = { force = 1, hitDistance = 1 }
 
     local prevAlarmed = false
     local timeSinceAlarmed = 0.0
@@ -68,6 +69,7 @@ function create(dodo)
                 component.DespawnAfter.getFor(dodo).time = 1.0
             end)
             component.SphereColliderShape.getFor(dodo):dirty().radius = 0.1
+            enemyArgs.hitDistance = 0
         end
 
         local alarmed = distance < 10 and not dodoHit
@@ -117,6 +119,6 @@ function create(dodo)
         }
     end)
 
-    applyTemplate(dodo, "Enemy")
+    applyTemplate(dodo, "Enemy", enemyArgs)
 end
 
