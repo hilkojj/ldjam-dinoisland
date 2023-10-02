@@ -97,7 +97,7 @@ function create(feather)
             local playerTrans = component.Transform.getFor(player)
             local dir = playerTrans.position - trans.position
 
-            --[[
+            ----[[
             component.Transform.animate(feather, "scale", vec3(1.5), .2, "pow2In")
             -- component.Transform.animate(feather, "position", trans.position + dir * vec3(.5), .1, "pow2Out")
 
@@ -115,8 +115,8 @@ function create(feather)
 
                 end)
             end)
-            ]]--
-            hide(feather)
+            --]]--
+            --hide(feather)
 
         end
 	end)
