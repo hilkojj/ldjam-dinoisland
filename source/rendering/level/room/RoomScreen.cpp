@@ -523,7 +523,7 @@ void RoomScreen::renderRoom(const RenderContext &con)
         {
             con.skyBox->bind(0);
             glUniform1i(con.skyShader->location("skyBox"), 0);
-            glUniform1f(con.skyShader->location("seaHeight"), room->luaEnvironment["seaHeight"]);
+            glUniform1f(con.skyShader->location("seaHeight"), room->luaEnvironment["seaHeight"].valid() ? room->luaEnvironment["seaHeight"].get<float>() : 0.0f);
 
             glUniformMatrix4fv(con.skyShader->location("projection"), 1, GL_FALSE, &con.cam.projection[0][0]);
             glUniformMatrix4fv(con.skyShader->location("view"), 1, GL_FALSE, &con.cam.view[0][0]);

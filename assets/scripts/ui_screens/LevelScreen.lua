@@ -1,5 +1,7 @@
 
 _G.hudScreen = currentEngine
+_G.titleScreen = false
+_G.cutScene = false
 
 onEvent("BeforeDelete", function()
     loadOrCreateLevel(nil)
@@ -8,18 +10,44 @@ onEvent("BeforeDelete", function()
     end
 end)
 
-if _G.levelToLoad == nil then
-    error("_G.levelToLoad is nil")
+_G.retryLevel = function()
+    if screenTransitionStarted then
+        return
+    end
+
+    startScreenTransition("transitions/screen_transition_egg", "shaders/ui/transition_cutoff")
+    setComponents(createEntity(), {
+        SoundSpeaker {
+            sound = "sounds/voicelines/professor_game_over_1",
+            volume = .8
+        },
+    })
+    onEvent("ScreenTransitionStartFinished", function()
+
+        closeActiveScreen()
+        openScreen("scripts/ui_screens/LevelScreen")
+    end)
 end
 
-applyTemplate(createEntity(), "LevelRestarter")
+_G.goToMainMenu = function()
+    if screenTransitionStarted then
+        return
+    end
 
-loadOrCreateLevel(_G.levelToLoad)
+    startScreenTransition("transitions/screen_transition0", "shaders/ui/transition_cutoff")
+    onEvent("ScreenTransitionStartFinished", function()
 
-setComponents(createEntity(), {
-    UIElement(),
-    TextView {
-        text = " Dino Island!",
-        fontSprite = "sprites/ui/default_font"
-    }
-})
+        closeActiveScreen()
+        openScreen("scripts/ui_screens/StartupScreen")
+    end)
+end
+
+local levelRestarter = createEntity()
+listenToKey(levelRestarter, gameSettings.keyInput.retryLevel, "retry_key")
+onEntityEvent(levelRestarter, "retry_key_pressed", _G.retryLevel)
+
+loadOrCreateLevel("assets/levels/default_level.lvl")
+
+applyTemplate(createEntity(), "HUD")
+
+endScreenTransition("transitions/screen_transition1", "shaders/ui/transition_cutoff")

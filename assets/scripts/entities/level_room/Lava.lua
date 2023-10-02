@@ -35,11 +35,7 @@ function create(lava)
         if col.otherEntity == _G.player and not hit and #col.contactPoints > 0 then
             hit = true
             _G.diedByLava = true
-            _G.queueRestartLevel = true
-            local cam = getByName("3rd_person_camera")
-            if valid(cam) then
-                component.ThirdPersonFollowing.remove(cam)
-            end
+            _G.killPlayer()
         end
     end)
 end

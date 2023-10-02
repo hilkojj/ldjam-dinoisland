@@ -38,6 +38,9 @@ function create(floor)
     local warn = false
 
     setUpdateFunction(floor, 0.05, function()
+        if _G.died then
+            return
+        end
         local rise = 0.005
 
         local floorTransform = component.Transform.getFor(floor)
@@ -59,8 +62,8 @@ function create(floor)
         _G.seaHeight = floorTransform.position.y
     end)
 
-    setUpdateFunction(createEntity(), 15, function()
-        if warn then
+    setUpdateFunction(createEntity(), 16, function()
+        if warn and not _G.died then
             setComponents(createEntity(), {
                 DespawnAfter {
                     time = 10

@@ -36,6 +36,7 @@ UIScreen::UIScreen(const asset<luau::Script> &s)
     luaEnvironment["startScreenTransition"] = [&] (const asset<Texture> &tex, const std::string &fragShader) {
         if (transitionDir == 1)
             return;
+        luaEnvironment["screenTransitionStarted"] = true;
         transitionTexture = tex;
         transitionDir = 1;
         transitionTimer = 0;
@@ -119,7 +120,7 @@ void UIScreen::render(double deltaTime)
         if (transitionDir != 0)
         {
             auto prevTimer = transitionTimer;
-            transitionTimer = max<float>(0., min<float>(1., transitionTimer + deltaTime * transitionDir));
+            transitionTimer = max<float>(0., min<float>(1., transitionTimer + deltaTime * (transitionDir > 0.0f ? 0.3f : 1.0f) * transitionDir));
 
             assert(transitionShader != NULL);
             transitionShader->use();

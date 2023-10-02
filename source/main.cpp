@@ -54,6 +54,10 @@ void addAssetLoaders()
 
         return map;
     });
+    AssetManager::addAssetLoader<Texture>(".autoload.png", [](auto path) {
+
+        return new Texture(Texture::fromImageFile(path.c_str()));
+    });
 }
 
 void initLuaStuff()
