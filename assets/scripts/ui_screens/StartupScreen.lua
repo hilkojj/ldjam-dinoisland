@@ -1,6 +1,8 @@
 
 _G.titleScreen = true
 _G.cutScene = false
+_G.introScreen = false
+_G.outroScreen = false
 
 _G.joinedSession = false
 
@@ -109,5 +111,5 @@ difficultyBtn("PLAY!", 9)
 endScreenTransition("transitions/screen_transition0", "shaders/ui/transition_cutoff")
 loadOrCreateLevel("assets/levels/default_level.lvl")
 
-openScreen("scripts/ui_screens/LevelScreen")
+--openScreen("scripts/ui_screens/OutroScreen")
 

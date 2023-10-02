@@ -2,6 +2,8 @@
 _G.hudScreen = currentEngine
 _G.titleScreen = false
 _G.cutScene = false
+_G.introScreen = false
+_G.outroScreen = false
 
 onEvent("BeforeDelete", function()
     loadOrCreateLevel(nil)

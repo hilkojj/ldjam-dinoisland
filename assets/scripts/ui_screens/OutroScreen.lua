@@ -1,26 +1,12 @@
 
 _G.titleScreen = false
 _G.cutScene = true
-_G.introScreen = true
-_G.outroScreen = false
+_G.introScreen = false
+_G.outroScreen = true
 
 onEvent("BeforeDelete", function()
-    print("cutscene done..")
+    print("outro done..")
 end)
-
-function startLevel()
-    if screenTransitionStarted then
-        return
-    end
-
-    startScreenTransition("transitions/screen_transition_egg", "shaders/ui/transition_cutoff")
-
-    onEvent("ScreenTransitionStartFinished", function()
-
-        closeActiveScreen()
-        openScreen("scripts/ui_screens/LevelScreen")
-    end)
-end
 
 setComponents(createEntity(), {
     UIElement {
@@ -65,40 +51,44 @@ function startScript()
         lineSpacing = 4
     })
 
-    local script = {
-        {
-            text = "Woopsie doopsie! Looks like we just\ntravelled 60 million years back in time!",
-            audio = "sounds/voicelines/intro_line_1",
-            duration = 4
-        },
-        {
-            text = "Just before the great moment in earth's\nhistory where all dinosaurs were about to be\ndrowned by the great flood.",
-            audio = "sounds/voicelines/intro_line_2",
-            duration = 5
-        },
-        {
-            text = "Oh, it seems I brought you along with me!",
-            audio = "sounds/voicelines/intro_line_3",
-            duration = 2,
-            delay = 0.5,
-            func = "spawnBoyIntro"
-        },
-        {
-            text = "Well, if you're here, could you help me collect\ndinosaur eggs and bring them to my ship?",
-            audio = "sounds/voicelines/intro_line_4",
-            duration = 4
-        },
-        {
-            text = "If you hurry, we can save the species by\ntaking them back to the future!",
-            audio = "sounds/voicelines/professor_hurry_1",
-            duration = 3
-        },
-        {
-            text = "Good luck adventurer!",
-            audio = "sounds/voicelines/professor_reaction_2",
-            duration = 1
-        },
-    }
+    local script = {}
+
+    if not _G.eggCounter then
+        -- for debugging:
+        _G.eggCounter = 4
+    end
+
+    if _G.eggCounter <= 3 then
+        -- lose
+        script = {
+            {
+                text = "If I would've done this, I would have collected\nway more!",
+                audio = "sounds/voicelines/lose_line_1",
+                duration = 3
+            },
+            {
+                text = "Anyway, lets take them back to the future,\nthey cannot hatch here! They deserve unlimited\nspace...",
+                audio = "sounds/voicelines/lose_line_2",
+                duration = 6.5,
+                func = "secondOutroCamPath"
+            }
+        }
+    else
+        -- win
+        script = {
+            {
+                text = "Oof! That was intense! It sure looks like\nI rescued the eggs, just in time!",
+                audio = "sounds/voicelines/win_line_1",
+                duration = 5
+            },
+            {
+                text = "Lets take them back to the future where\nI can give them unlimited space!",
+                audio = "sounds/voicelines/win_line_2",
+                duration = 3.5,
+                func = "secondOutroCamPath"
+            }
+        }
+    end
 
     local scriptI = 0
 
@@ -125,17 +115,30 @@ function startScript()
     end
 
     function onScriptEnd()
-        setComponents(createEntity(), {
-            DespawnAfter {
-                time = 3
-            },
-            SoundSpeaker {
-                sound = "sounds/voicelines/boy_happy_4",
-                volume = .5,
-                pitch = 1.2
-            },
-        })
-        startLevel()
+        --setComponents(createEntity(), {
+        --    DespawnAfter {
+        --        time = 3
+        --    },
+        --    SoundSpeaker {
+        --        sound = "sounds/voicelines/boy_hurt_2",
+        --        volume = .5,
+        --        pitch = 1.2
+        --    },
+        --})
+        component.DespawnAfter.getFor(popup).time = 0
+        setTimeout(createEntity(), 4, function()
+            if screenTransitionStarted then
+                return
+            end
+
+            startScreenTransition("transitions/screen_transition_egg", "shaders/ui/transition_cutoff")
+
+            onEvent("ScreenTransitionStartFinished", function()
+
+                closeActiveScreen()
+                openScreen("scripts/ui_screens/StartupScreen")
+            end)
+        end)
     end
 
     function nextScriptEntry()
@@ -171,7 +174,11 @@ function startScript()
         component.TextView.getFor(textField).text = script[scriptI].text
 
         setTimeout(popup, script[scriptI].duration, function()
-            continueBtn()
+            if scriptI == #script then
+                onScriptEnd()
+            else
+                continueBtn()
+            end
         end)
     end
 

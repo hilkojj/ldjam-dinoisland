@@ -101,6 +101,139 @@ function create(player)
         camPers.fieldOfView = camCheckPoints[1].fov
         nextCheckpoint()
         component.Inspecting.getFor(cam)
+
+    elseif _G.outroScreen then
+        local cam = getByName("outro_cam")
+        setMainCamera(cam)
+        setComponents(cam, {
+            SoundSpeaker {
+                sound = "sounds/background_music",
+                volume = 0.5,
+                looping = true,
+            }
+        })
+
+        local rot1 = quat:new():setIdentity()
+        rot1.x = -167
+        rot1.y = -17.9
+        rot1.z = 180
+
+        local rot2 = quat:new():setIdentity()
+        rot2.x = 159
+        rot2.y = -45
+        rot2.z = -180
+
+        local rot3 = quat:new():setIdentity()
+        rot3.x = -179
+        rot3.y = -69
+        rot3.z = -179
+
+        local rot4 = quat:new():setIdentity()
+        rot4.x = -179
+        rot4.y = -69
+        rot4.z = -179
+
+        local camCheckPoints = {
+            {
+                position = vec3(18, 121.5, -93),
+                rotation = rot1,
+                duration = 0,
+                fov = 36
+            },
+            {
+                position = vec3(-19.5, 150, -110),
+                rotation = rot2,
+                duration = 4,
+                fov = 45
+            },
+            {
+                position = vec3(-181, 119, -106),
+                rotation = rot3,
+                duration = 6,
+                fov = 18
+            },
+            {
+                position = vec3(-181, 105, -106),
+                rotation = rot4,
+                duration = 1,
+                fov = 18
+            },
+        }
+
+        local i = 0
+        local nextCheckpoint = nil
+        local exitOnFinish = false
+
+        nextCheckpoint = function()
+            if i == #camCheckPoints then
+                if exitOnFinish then
+                    -- todo
+                else
+                    _G.startScript()
+                end
+                return
+            end
+            i = i + 1
+
+            local cp = camCheckPoints[i]
+            local method = "linear"
+            if i == 1 then
+                method = "pow2In"
+            end
+            component.Transform.animate(cam, "position", cp.position, cp.duration, method, nextCheckpoint)
+            component.Transform.animate(cam, "rotation", cp.rotation, cp.duration, method)
+            component.CameraPerspective.animate(cam, "fieldOfView", cp.fov, cp.duration, method)
+        end
+
+        local camTrans = component.Transform.getFor(cam)
+        camTrans.position = camCheckPoints[1].position
+        camTrans.rotation = camCheckPoints[1].rotation
+        local camPers = component.CameraPerspective.getFor(cam)
+        camPers.fieldOfView = camCheckPoints[1].fov
+        nextCheckpoint()
+        component.Inspecting.getFor(cam)
+
+        _G.secondOutroCamPath = function()
+            local rot5 = quat:new():setIdentity()
+            rot5.x = 160
+            rot5.y = -21
+            rot5.z = -179
+
+            local rot6 = quat:new():setIdentity()
+            rot6.x = 160.7
+            rot6.y = -44.528
+            rot6.z = -178.69
+
+            exitOnFinish = true
+            camCheckPoints = {
+                {
+                    position = vec3(-181, 105, -106),
+                    rotation = rot4,
+                    duration = 0,
+                    fov = 18
+                },
+                {
+                    position = vec3(-60, 172, -174),
+                    rotation = rot5,
+                    duration = 4,
+                    fov = 45
+                },
+                {
+                    position = vec3(-60, 172, -174),
+                    rotation = rot5,
+                    duration = 2,
+                    fov = 45
+                },
+                {
+                    position = vec3(-60, 172, -174),
+                    rotation = rot6,
+                    duration = 5,
+                    fov = 5
+                }
+            }
+            i = 0
+            nextCheckpoint()
+        end
     end
 
 end

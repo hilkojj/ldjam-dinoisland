@@ -96,15 +96,21 @@ function create(dino, args)
         ShadowCaster(),
     })
 
-    local numEggs = 4
-    if args.lastOne then
-        numEggs = 1
-    end
-    for i = 1,numEggs do
-        local egg = createChild(dino, "egg"..i)
-        applyTemplate(egg, "Egg")
-        component.TransformChild.getFor(egg).parentEntity = dino
-        component.CustomShader.getFor(egg):dirty().uniformsVec3["dinoColorB"] = vec3(args.dinoColorAr, args.dinoColorAg, args.dinoColorAb)
+    if not _G.outroScreen then
+        local numEggs = 4
+        if args.lastOne then
+            numEggs = 1
+        end
+        for i = 1,numEggs do
+            local egg = createChild(dino, "egg"..i)
+            applyTemplate(egg, "Egg")
+            component.TransformChild.getFor(egg).parentEntity = dino
+            component.CustomShader.getFor(egg):dirty().uniformsVec3["dinoColorB"] = vec3(args.dinoColorAr, args.dinoColorAg, args.dinoColorAb)
+            if args.lastOne then
+                component.TransformChild.getFor(egg).offset.position = vec3(-1.335, 0.8, -3.018)
+                _G.lastEgg = egg
+            end
+        end
     end
 
     local function resetAnims()

@@ -27,7 +27,9 @@ function create(spawner)
         dodoMovement.walkSpeed = dodoMovement.walkSpeed * (0.8 + 0.7 * math.max(0, math.min(1, spawnerTransform.position.y / 100.0)))
     end
 
-    spawnDodo()
+    if not _G.outroScreen then
+        spawnDodo()
+    end
 
     setUpdateFunction(spawner, 3, function(deltaTime)
         if _G.player == nil or not valid(_G.player) then

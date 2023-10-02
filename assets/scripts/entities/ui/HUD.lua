@@ -134,6 +134,13 @@ function create(hud, args)
         end
     end)
 
+    _G.onLastEgg = function()
+        setTimeout(hud, 0.0, function()
+            closeActiveScreen()
+            openScreen("scripts/ui_screens/OutroScreen")
+        end)
+    end
+
     _G.showGameOverPopup = function(won)
         destroyEntity(mealCountContainer)
         destroyEntity(featherCountContainer)
@@ -214,32 +221,6 @@ function create(hud, args)
                     newLine = true
                 })
             end)
-        else
-
-            applyTemplate(createChild(popup, "gameovertext"), "Text", {
-                text = "You won the game...\nIt was inevitable...",
-                waving = true,
-                wavingFrequency = .04,
-                wavingSpeed = 10,
-                wavingAmplitude = 3,
-                lineSpacing = 0
-            })
-
-            --[[
-            applyTemplate(createChild(popup, "scoretext"), "Text", {
-                text = "Your time: "..getTimeString().."\n",
-                lineSpacing = 10,
-                color = 2,
-            })
-            ]]--
-
-            --[[
-            applyTemplate(createChild(popup, "scoretext"), "Text", {
-                text = "Your score: "..totalEnergyEver.."\n",
-                lineSpacing = 10,
-                color = colors.brick--5,
-            })]]--
-        
 
         end
         setTimeout(popup, 3, function()

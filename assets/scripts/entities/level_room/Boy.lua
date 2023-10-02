@@ -7,7 +7,7 @@ loadModels("assets/models/arrow.glb", false)
 loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
-_G.eggThrowMaxDistance = 64
+_G.eggThrowMaxDistance = 52
 
 function create(player)
 
@@ -138,6 +138,8 @@ function create(player)
     })
     component.RigidBody.getFor(player):dirty().allowSleep = false
 
+    --component.Transform.getFor(player).position = vec3(40, 111, -56)
+
     local arrow = createChild(player, "arrow")
     setComponents(arrow, {
         Transform(),
@@ -214,26 +216,6 @@ function create(player)
             }
         })
     end
-
-    --[[
-    onEntityEvent(player, "AnimationFinished", function(anim, unsub)
-        print(anim.name.." has finished playing! Play it one more time but with less influence..")
-        local anim = component.Rigged.getFor(player).playingAnimations[1]
-        anim.loop = false
-        anim.influence = .5
-        unsub()
-
-        component.Rigged.getFor(player).playingAnimations:add(PlayAnimation {
-            name = "headanim",
-            influence = 1.
-        })
-        component.RigidBody.getFor(player):dirty().gravity = vec3(0, -10, 0)
-    end)]]--
-
-    listenToGamepadButton(player, 0, gameSettings.gamepadInput.test, "test")
-    onEntityEvent(player, "test_pressed", function()
-        print("epic")
-    end)
 
     local timeSinceLanding = 0
 
@@ -336,6 +318,9 @@ function create(player)
                             else
                                 component.TransformChild.getFor(egg).parentEntity = ship
                                 component.TransformChild.getFor(egg).offset.position = eggOffsets[_G.eggCounter]
+                            end
+                            if egg == _G.lastEgg then
+                                setTimeout(player, 1.2, _G.onLastEgg)
                             end
                         end)
                     end)

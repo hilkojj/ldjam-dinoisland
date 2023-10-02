@@ -35,10 +35,15 @@ function create(floor)
         }
 	})
 
+    if _G.outroScreen then
+        component.Transform.getFor(floor).position.y = 102
+    end
+
     local warn = false
 
     setUpdateFunction(floor, 0.05, function()
         if _G.died or _G.titleScreen or _G.cutScene then
+            _G.seaHeight = component.Transform.getFor(floor).position.y
             return
         end
         local rise = 0.004
