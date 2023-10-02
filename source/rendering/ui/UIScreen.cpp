@@ -4,6 +4,7 @@
 #include <utils/quad_renderer.h>
 #include <ecs/systems/AudioSystem.h>
 #include <ecs/systems/LuaScriptsSystem.h>
+#include <ecs/systems/SpawningSystem.h>
 #include <generated/Children.hpp>
 #include "UIScreen.h"
 #include "../../game/Game.h"
@@ -22,6 +23,7 @@ UIScreen::UIScreen(const asset<luau::Script> &s)
     addSystem(new SpriteSystem("(animated) sprites"));
     addSystem(new AudioSystem("audio"));
     addSystem(new LuaScriptsSystem("lua functions"));
+    addSystem(new SpawningSystem("(de)spawning"));
 
     cam.position = mu::Z;
     cam.lookAt(mu::ZERO_3);

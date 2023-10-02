@@ -48,7 +48,7 @@ function create(dodo)
             walkSpeed = 18
         }
     })
-    local enemyArgs = { force = 1.5, hitDistance = 1 }
+    local enemyArgs = { force = 1.75, hitDistance = 1 }
 
     local prevAlarmed = false
     local timeSinceAlarmed = 0.0

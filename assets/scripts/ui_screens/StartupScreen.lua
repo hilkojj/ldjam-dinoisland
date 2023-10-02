@@ -25,7 +25,7 @@ onEvent("BeforeDelete", function()
     print("startup screen done..")
 end)
 
-function startLevel()
+function startIntro()
     if screenTransitionStarted then
         return
     end
@@ -40,7 +40,7 @@ function startLevel()
     onEvent("ScreenTransitionStartFinished", function()
 
         closeActiveScreen()
-        openScreen("scripts/ui_screens/LevelScreen")
+        openScreen("scripts/ui_screens/CutSceneScreen")
     end)
 end
 
@@ -96,13 +96,13 @@ function difficultyBtn(name, difficulty)
         text = name,
         action = function()
             _G.difficulty = difficulty
-            startLevel()
+            startIntro()
         end
     })
     component.UIElement.getFor(btn).margin = ivec2(0, 0)
 end
 --difficultyBtn("Easy", 6)
-difficultyBtn("Play", 9)
+difficultyBtn("PLAY!", 9)
 --difficultyBtn("Hell", 12)
 
 

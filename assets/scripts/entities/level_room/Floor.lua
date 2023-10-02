@@ -38,7 +38,7 @@ function create(floor)
     local warn = false
 
     setUpdateFunction(floor, 0.05, function()
-        if _G.died then
+        if _G.died or _G.titleScreen or _G.cutScene then
             return
         end
         local rise = 0.005
