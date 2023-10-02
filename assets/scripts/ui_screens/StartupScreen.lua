@@ -108,3 +108,6 @@ difficultyBtn("PLAY!", 9)
 
 endScreenTransition("transitions/screen_transition0", "shaders/ui/transition_cutoff")
 loadOrCreateLevel("assets/levels/default_level.lvl")
+
+--openScreen("scripts/ui_screens/LevelScreen")
+

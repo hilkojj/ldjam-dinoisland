@@ -238,7 +238,7 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
         }
         if (room->luaEnvironment["seaHeight"].valid())
         {
-            t.position.y = max<float>(float(room->luaEnvironment["seaHeight"]) + 6.0f, t.position.y);
+            t.position.y = max<float>(float(room->luaEnvironment["seaHeight"]) + 3.0f, t.position.y);
         }
     });
 

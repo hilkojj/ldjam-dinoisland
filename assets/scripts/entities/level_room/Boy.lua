@@ -11,6 +11,11 @@ _G.eggThrowMaxDistance = 64
 function create(player)
 
     setName(player, "player")
+    -- for enemies:
+    _G.playerGravity = vec3(0)
+    _G.playerWalkSpeed = 0
+    _G.playerJumpForce = 0
+
     _G.player = player
     _G.timeSincePlayerHit = 0
     _G.holdingEgg = false
@@ -129,6 +134,7 @@ function create(player)
         }
         --Inspecting()
     })
+    component.RigidBody.getFor(player):dirty().allowSleep = false
 
     local dropShadowSun = createChild(player, "drop shadow sun")
     setComponents(dropShadowSun, {

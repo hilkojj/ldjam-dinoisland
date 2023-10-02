@@ -49,7 +49,7 @@ function create(dodo)
         }
     })
     if _G.titleScreen or _G.cutScene then
-        component.Transform.getFor(dodo).scale = vec3(3)
+        component.Transform.getFor(dodo).scale = vec3(2)
     end
 
     local enemyArgs = { force = 1.75, hitDistance = 1 }

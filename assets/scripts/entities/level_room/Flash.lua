@@ -5,7 +5,7 @@ function create(flash)
     setComponents(flash, {
         SoundSpeaker {
             sound = "sounds/energy",
-            volume = 3
+            volume = 1
         },
         DespawnAfter {
             time = 4

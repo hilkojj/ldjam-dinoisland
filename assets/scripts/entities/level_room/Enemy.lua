@@ -6,10 +6,6 @@ defaultArgs({
 
 function create(enemy, args)
 
-    playerGravity = vec3(0)
-    playerWalkSpeed = 0
-    playerJumpForce = 0
-
     local enemyUpdate = nil
     enemyUpdate = function(deltaTime)
         if _G.player == nil or not valid(_G.player) or not component.CharacterMovement.has(_G.player) then
@@ -31,7 +27,7 @@ function create(enemy, args)
             if distance2d < args.hitDistance and distance > 0.01 and playerOnGround then
 
                 _G.timeSincePlayerHit = 0
-                playerGravity = vec3(playerBody.gravity.x, playerBody.gravity.y, playerBody.gravity.z)
+                _G.playerGravity = vec3(playerBody.gravity.x, playerBody.gravity.y, playerBody.gravity.z)
                 playerBody.gravity = vec3(posDiff.x / distance,
                         posDiff.y / distance,
                         posDiff.z / distance) * vec3(30) + vec3(0, 50, 0)
@@ -48,16 +44,16 @@ function create(enemy, args)
                 })
 
                 if playerMovement.walkSpeed > 0 then
-                    playerWalkSpeed = playerMovement.walkSpeed
-                    playerJumpForce = playerMovement.jumpForce
+                    _G.playerWalkSpeed = playerMovement.walkSpeed
+                    _G.playerJumpForce = playerMovement.jumpForce
                     playerMovement.walkSpeed = 0
                     playerMovement.jumpForce = 0
-                    component.RigidBody.animate(_G.player, "gravity", playerGravity, 0.7 * args.force, "pow2Out", function()
+                    component.RigidBody.animate(_G.player, "gravity", _G.playerGravity, 0.7 * args.force, "pow2Out", function()
                         if _G.player == nil or not valid(_G.player) or not component.CharacterMovement.has(_G.player) then
                             return
                         end
-                        component.CharacterMovement.getFor(player).walkSpeed = playerWalkSpeed
-                        component.CharacterMovement.getFor(player).jumpForce = playerJumpForce
+                        component.CharacterMovement.getFor(player).walkSpeed = _G.playerWalkSpeed
+                        component.CharacterMovement.getFor(player).jumpForce = _G.playerJumpForce
                     end)
                 end
 
