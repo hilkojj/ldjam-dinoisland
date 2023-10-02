@@ -52,7 +52,7 @@ function create(dodo)
         component.Transform.getFor(dodo).scale = vec3(2)
     end
 
-    local enemyArgs = { force = 1.5, hitDistance = 1 }
+    local enemyArgs = { force = 1.2, hitDistance = 1 }
 
     local prevAlarmed = false
     local timeSinceAlarmed = 0.0
