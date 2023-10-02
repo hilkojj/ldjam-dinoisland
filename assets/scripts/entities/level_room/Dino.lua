@@ -6,11 +6,21 @@ loadModels("assets/models/nest.glb", false)
 
 persistenceMode(TEMPLATE | ARGS, {"Transform"})
 
+defaultArgs({
+    lastOne = false,
+    dinoColorAr = 0.7,
+    dinoColorAg = 0.2,
+    dinoColorAb = 1,
+    dinoColorBr = 0.7,
+    dinoColorBg = 0,
+    dinoColorBb = 0.3
+})
+
 function randomFloat(lower, greater)
     return lower + math.random()  * (greater - lower);
 end
 
-function create(dino)
+function create(dino, args)
     setName(dino, "dino")
 
     component.Transform.getFor(dino)
@@ -26,7 +36,8 @@ function create(dino)
                 PlayAnimation {
                     name = "Idle",
                     influence = 1,
-                    loop = true
+                    loop = true,
+                    timeMultiplier = 0.5
                 },
                 PlayAnimation {
                     name = "Alarmed",
@@ -39,7 +50,7 @@ function create(dino)
             vertexShaderPath = "shaders/rigged.vert",
             fragmentShaderPath = "shaders/default.frag",
             defines = {DINO = "1"},
-            uniformsVec3 = {dinoColorA = vec3(0.7, 0.2, 1), dinoColorB = vec3(0.7, 0, 0.3)}
+            uniformsVec3 = {dinoColorA = vec3(args.dinoColorAr, args.dinoColorAg, args.dinoColorAb), dinoColorB = vec3(args.dinoColorBr, args.dinoColorBg, args.dinoColorBb)}
         },
         ShadowCaster(),
         RigidBody {
@@ -77,10 +88,15 @@ function create(dino)
         ShadowCaster(),
     })
 
-    for i = 1,4 do
+    local numEggs = 4
+    if args.lastOne then
+        numEggs = 1
+    end
+    for i = 1,numEggs do
         local egg = createChild(dino, "egg"..i)
         applyTemplate(egg, "Egg")
         component.TransformChild.getFor(egg).parentEntity = dino
+        component.CustomShader.getFor(egg):dirty().uniformsVec3["dinoColorB"] = vec3(args.dinoColorAr, args.dinoColorAg, args.dinoColorAb)
     end
 
     local function resetAnims()

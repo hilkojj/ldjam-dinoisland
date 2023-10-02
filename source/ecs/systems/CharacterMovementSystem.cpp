@@ -165,7 +165,7 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
             }
         }
 
-        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f) * (1.0f + (1.0f - cm.walkDirInput.y) * 0.5f) * rotationFactor;
+        float rotateAmount = min(1.f, abs(cm.walkDirInput.x) * 2.f) * (1.0f + (1.0f - abs(cm.walkDirInput.y) * 0.5f) * 0.5f) * rotationFactor;
         t.rotation = rotate(t.rotation, cm.walkDirInput.x * dT * -4.f * rotateAmount, mu::Y);
     });
 
@@ -235,6 +235,10 @@ void CharacterMovementSystem::update(double deltaTime, EntityEngine *)
         {
             auto camTargetDir = camTargetDiff / camTargetDist;
             t.rotation = slerp(t.rotation, quatLookAt(camTargetDir, mu::Y), dT * 20.f);
+        }
+        if (room->luaEnvironment["seaHeight"].valid())
+        {
+            t.position.y = max<float>(float(room->luaEnvironment["seaHeight"]) + 6.0f, t.position.y);
         }
     });
 
