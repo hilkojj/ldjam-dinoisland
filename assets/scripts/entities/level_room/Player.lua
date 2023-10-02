@@ -33,7 +33,7 @@ function create(player)
 
     setComponents(player, {
         Transform {
-            position = vec3(0, 100, 0)
+            position = vec3(-70, 20, 60)
         },
         RenderModel {
             modelName = "Boy",

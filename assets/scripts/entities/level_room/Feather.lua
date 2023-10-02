@@ -80,7 +80,7 @@ function create(feather)
                     volume = 4.0
                 },
             })
-            if _G.featherScore == 8 and _G.featherScore == 20 and _G.featherScore == 35 then
+            if _G.featherScore == 13 or _G.featherScore == 35 then
                 setComponents(createEntity(), {
                     DespawnAfter {
                         time = 10
