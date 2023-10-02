@@ -78,7 +78,9 @@ function startScript()
         {
             text = "Oh, it seems I brought you along with me!",
             audio = "sounds/voicelines/intro_line_3",
-            duration = 2
+            duration = 2,
+            delay = 0.5,
+            func = "spawnBoyIntro"
         },
         {
             text = "Well, if you're here, could you help me collect\ndinosaur eggs and bring them to my ship?",
@@ -134,15 +136,26 @@ function startScript()
 
         scriptI = scriptI + 1
 
-        setComponents(createEntity(), {
-            DespawnAfter {
-                time = 20,
-            },
-            SoundSpeaker {
-                sound = script[scriptI].audio,
-                volume = 1
-            },
-        })
+        function spawnAudio()
+            setComponents(createEntity(), {
+                DespawnAfter {
+                    time = 20,
+                },
+                SoundSpeaker {
+                    sound = script[scriptI].audio,
+                    volume = 1
+                },
+            })
+        end
+
+        if script[scriptI].delay then
+            setTimeout(popup, script[scriptI].delay, spawnAudio)
+        else
+            spawnAudio()
+        end
+        if script[scriptI].func then
+            _G[script[scriptI].func]()
+        end
 
         component.TextView.getFor(textField).text = script[scriptI].text
 

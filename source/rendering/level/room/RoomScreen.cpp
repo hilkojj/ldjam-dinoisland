@@ -9,6 +9,7 @@
 #include "../../../generated/Model.hpp"
 #include "../../../generated/Light.hpp"
 #include "../../../generated/Physics.hpp"
+#include "../../../generated/Character.hpp"
 #include "../../../generated/Gravity.hpp"
 #include "../../../game/Game.h"
 #include "EnvironmentMap.h"
@@ -196,7 +197,12 @@ void RoomScreen::render(double deltaTime)
     fbo->colorTexture->bind(0, hdrShader, "hdrImage");
     if (bloomBlurFbo)
         bloomBlurFbo->colorTexture->bind(1, hdrShader, "blurImage");
-    glUniform1f(hdrShader.location("exposure"), hdrExposure);
+    float finalExposure = hdrExposure;
+    room->entities.view<HDRExposure>().each([&] (const HDRExposure &exposure)
+    {
+        finalExposure = exposure.value;
+    });
+    glUniform1f(hdrShader.location("exposure"), finalExposure);
     Mesh::getQuad()->render();
 
     glEnable(GL_DEPTH_TEST);

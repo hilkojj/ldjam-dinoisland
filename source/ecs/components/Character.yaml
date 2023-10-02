@@ -17,3 +17,6 @@ CharacterMovement:
     leftGroundSinceJumpStarted: bool
     holdingJumpEnded: bool
     jumpDescend: bool
+
+HDRExposure:
+  value: [float, 1.0f]

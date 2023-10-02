@@ -33,8 +33,8 @@ function create(player)
         rot3.z = 12.5
 
         local rot4 = quat:new():setIdentity()
-        rot4.x = 5.1
-        rot4.y = -43.8
+        rot4.x = -1.06
+        rot4.y = -40.812
         rot4.z = 0
 
         local camCheckPoints = {
@@ -57,9 +57,9 @@ function create(player)
                 fov = 75
             },
             {
-                position = vec3(-171, 5, 453),
+                position = vec3(-171, 3.874, 453),
                 rotation = rot4,
-                duration = 8,
+                duration = 13,
                 fov = 46
             },
         }
@@ -80,6 +80,12 @@ function create(player)
                 method = "pow2In"
             end
             if i == #camCheckPoints then
+
+                setTimeout(cam, 8, function()
+                    local profIntro = createEntity()
+                    applyTemplate(profIntro, "ProfessorIntro")
+                end)
+
                 method = "pow2Out"
                 component.SoundSpeaker.animate(cam, "volume", 0, cp.duration)
             end
