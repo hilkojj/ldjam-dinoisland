@@ -1,11 +1,27 @@
 
+if _G.titleScreen then
+    loadModels("assets/models/title.glb", false)
+end
+
 function create(player)
 
     if not _G.titleScreen and not _G.cutScene then
         applyTemplate(player, "Boy")
     elseif _G.titleScreen then
-        setMainCamera(getByName("cine_cam"))
-        applyTemplate(player, "Title")
+        local cam = getByName("cine_cam")
+        setMainCamera(cam)
+
+        local title = createChild(cam, "title")
+        setComponents(title, {
+            Transform(),
+            TransformChild {
+                parentEntity = cam
+            },
+            RenderModel {
+                modelName = "Title"
+            }
+        })
+
     elseif _G.introScreen then
         local cam = getByName("intro_cam")
         setMainCamera(cam)
