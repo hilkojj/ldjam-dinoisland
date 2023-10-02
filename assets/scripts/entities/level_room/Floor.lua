@@ -41,7 +41,7 @@ function create(floor)
         if _G.died or _G.titleScreen or _G.cutScene then
             return
         end
-        local rise = 0.005
+        local rise = 0.004
 
         local floorTransform = component.Transform.getFor(floor)
 

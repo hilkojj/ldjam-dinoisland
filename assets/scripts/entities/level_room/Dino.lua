@@ -3,6 +3,7 @@ masks = include("scripts/entities/level_room/_masks")
 
 loadRiggedModels("assets/models/dino.glb", false)
 loadModels("assets/models/nest.glb", false)
+loadModels("assets/models/meal_bar.glb", false)
 
 persistenceMode(TEMPLATE | ARGS, {"Transform"})
 
@@ -44,8 +45,7 @@ function create(dino, args)
                 PlayAnimation {
                     name = "Idle",
                     influence = 1,
-                    loop = true,
-                    timeMultiplier = 0.5
+                    loop = true
                 },
                 PlayAnimation {
                     name = "Alarmed",
@@ -132,6 +132,8 @@ function create(dino, args)
     local timeSinceNotAlarmed = 0
     local attacking = false
     local mealTime = 0
+    local mealBar = nil
+    local timePerMeal = 8
     setUpdateFunction(dino, 0.0, function(deltaTime)
         if _G.player == nil or not valid(_G.player) or not component.CharacterMovement.has(_G.player) then
             return
@@ -148,6 +150,7 @@ function create(dino, args)
 
         if mealTime > 0 then
             mealTime = mealTime - deltaTime
+            component.Transform.getFor(mealBar).scale.x = (mealTime + (#meals - 1) * timePerMeal) * 0.1
             if mealTime <= 0 then
                 if valid(meals[1]) then
                     component.DespawnAfter.getFor(meals[1]).time = 0
@@ -157,9 +160,12 @@ function create(dino, args)
                     resetAnims()
                     addCollider()
                     enemyArgs.hitDistance = hitDistance
+                    if valid(mealBar) then
+                        component.DespawnAfter.getFor(mealBar).time = 0
+                    end
                 else
                     component.LookAt.getFor(dino).entity = meals[1]
-                    mealTime = 10
+                    mealTime = timePerMeal
                 end
             end
         end
@@ -273,7 +279,7 @@ function create(dino, args)
         meals[#meals + 1] = meal
 
         if prevMealTime <= 0 then
-            mealTime = 10
+            mealTime = timePerMeal
             component.LookAt.getFor(dino).entity = meal
 
             component.Rigged.getFor(dino).playingAnimations = {
@@ -285,6 +291,20 @@ function create(dino, args)
             }
             component.CapsuleColliderShape.remove(dino)
             enemyArgs.hitDistance = 0
+
+            mealBar = createChild(dino, "meal_bar")
+            setComponents(mealBar, {
+                Transform {
+                    position = component.Transform.getFor(meal).position + vec3(0, 3.5, 0),
+                    scale = vec3(0, 1, 1)
+                },
+                LookAt {
+                    entity = getByName("3rd_person_camera")
+                },
+                RenderModel {
+                    modelName = "MealBar"
+                }
+            })
         end
     end
 end

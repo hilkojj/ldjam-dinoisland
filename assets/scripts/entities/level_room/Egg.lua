@@ -38,7 +38,8 @@ function create(egg)
                 PlayAnimation {
                     name = "idle",
                     influence = 1,
-                    loop = true
+                    loop = true,
+                    timeMultiplier = 0.5
                 }
             }
         },

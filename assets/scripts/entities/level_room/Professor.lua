@@ -99,7 +99,9 @@ function create(prof)
 
         local mul = -1
 
+        _G.canThrowEgg = false
         if distance2d < _G.eggThrowMaxDistance and _G.holdingEgg then
+            _G.canThrowEgg = true
             mul = 1
         end
 

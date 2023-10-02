@@ -124,6 +124,16 @@ function startScript()
     end
 
     function onScriptEnd()
+        setComponents(createEntity(), {
+            DespawnAfter {
+                time = 3
+            },
+            SoundSpeaker {
+                sound = "sounds/voicelines/boy_happy_4",
+                volume = .5,
+                pitch = 1.2
+            },
+        })
         startLevel()
     end
 

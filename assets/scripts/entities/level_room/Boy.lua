@@ -19,6 +19,7 @@ function create(player)
     _G.player = player
     _G.timeSincePlayerHit = 0
     _G.holdingEgg = false
+    _G.canThrowEgg = false
     _G.holdingEggEntity = nil
     _G.mealsToThrow = 0
     _G.featherScore = 0

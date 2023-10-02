@@ -19,78 +19,125 @@ function create(hud, args)
             centerAlign = true
         }
     })
-    local energyMeter = createChild(hud, "energy meter")
-    setComponents(energyMeter, {
+    local mealCountContainer = createEntity()
+    setName(mealCountContainer, "mealCountContainer")
+    setComponents(mealCountContainer, {
         UIElement {
-            --[[
+            absolutePositioning = true,
+            absoluteHorizontalAlign = 0,
+            absoluteVerticalAlign = 0,
+            renderOffset = ivec2(24, 24)
+        },
+        UIContainer {
+            fixedWidth = 100,
+            fixedHeight = 100,
+            centerAlign = false
+        }
+    })
+
+    local mealCountIcon = createChild(mealCountContainer, "meal count icon")
+    setComponents(mealCountIcon, {
+        UIElement {
+            renderOffset = ivec2(-12, -28)
+        },
+        AsepriteView {
+            sprite = "sprites/ui/meal",
+            frame = 1
+        }
+    })
+    local mealCountText = createChild(mealCountContainer, "meal count text")
+    applyTemplate(mealCountText, "Text")
+    component.UIElement.getFor(mealCountText).startOnNewLine = true
+    component.TextView.getFor(mealCountText).text = "0x"
+
+    local featherCountContainer = createEntity()
+    setName(featherCountContainer, "featherCountContainer")
+    setComponents(featherCountContainer, {
+        UIElement {
+            absolutePositioning = true,
+            absoluteHorizontalAlign = 0,
+            absoluteVerticalAlign = 0,
+            renderOffset = ivec2(24 + 64, 24)
+        },
+        UIContainer {
+            fixedWidth = 100,
+            fixedHeight = 100,
+            centerAlign = false
+        }
+    })
+
+    local featherCountIcon = createChild(featherCountContainer, "feather count icon")
+    setComponents(featherCountIcon, {
+        UIElement {
+            renderOffset = ivec2(-12, -28)
+        },
+        AsepriteView {
+            sprite = "sprites/ui/meal",
+            frame = 0
+        }
+    })
+    local featherCountText = createChild(featherCountContainer, "feather count text")
+    applyTemplate(featherCountText, "Text")
+    component.UIElement.getFor(featherCountText).startOnNewLine = true
+    component.TextView.getFor(featherCountText).text = "0x"
+
+    local throwEggContainer = createEntity()
+    setName(throwEggContainer, "throwEggContainer")
+    setComponents(throwEggContainer, {
+        UIElement {
             absolutePositioning = true,
             absoluteHorizontalAlign = 1,
             absoluteVerticalAlign = 0,
-            renderOffset = ivec2(0, 0)
-            ]]--
+            renderOffset = ivec2(0, 24)
+        },
+        UIContainer {
+            fixedWidth = 100,
+            fixedHeight = 100,
+            centerAlign = true
+        }
+    })
+
+    local throwEggIcon = createChild(throwEggContainer, "throwEggIcon")
+    setComponents(throwEggIcon, {
+        UIElement {
+            renderOffset = ivec2(0, -28)
         },
         AsepriteView {
-            sprite = "sprites/ui/energy_meter",
-            loop = false
+            sprite = "sprites/ui/meal",
+            frame = 3
         }
-        
     })
 
-    --[[
-    local hearts = {
-        createChild(hud, "heart 0"),
-        createChild(hud, "heart 1"),
-        createChild(hud, "heart 2"),
-        createChild(hud, "heart 3"),
-    }
-    for i, h in pairs(hearts) do
-
-        setComponents(h, {
-            UIElement {
-                
-                absolutePositioning = true,
-                absoluteHorizontalAlign = 1,
-                absoluteVerticalAlign = 0,
-                renderOffset = ivec2(i * 16 - 40, -52)
-            },
-            AsepriteView {
-                sprite = "sprites/ui/heart",
-                loop = false
-            }
-        
-        })
-
-    end
-
-    _G.updateHealthBar = function(left)
-        
-        for i = 4, left + 1, -1 do
-            component.AsepriteView.getFor(hearts[i]).playingTag = 0
+    setUpdateFunction(mealCountContainer, 0.05, function()
+        component.TextView.getFor(mealCountText).text = _G.mealsToThrow.."x"
+        local frame = 1
+        if _G.mealsToThrow == 0 then
+            component.TextView.getFor(mealCountText).mapColorTo = colors.rainbow_red
+        else
+            component.TextView.getFor(mealCountText).mapColorTo = colors.string
+            if not _G.holdingEgg then
+                frame = 2
+            end
         end
-        
-    end
+        component.AsepriteView.getFor(mealCountIcon).frame = frame
+    end)
 
-    function getTimeString()
-	    local minutesStr = math.floor(getTime() / 60)..""
-        local secsStr = math.floor(math.fmod(getTime(), 60))..""
-        return (#minutesStr == 1 and "0"..minutesStr or minutesStr)..":"..(#secsStr == 1 and "0"..secsStr or secsStr)
-    end
+    setUpdateFunction(featherCountContainer, 0.05, function()
+        component.TextView.getFor(featherCountText).text = _G.featherScore.."x"
+    end)
 
-
-    local timeText = createChild(hud, "time text")
-    applyTemplate(timeText, "Text", {
-        text = "00:00",
-        color = 2
-    })
-    setUpdateFunction(timeText, .5, function()
-    
-        component.TextView.getFor(timeText).text = getTimeString()
-    
-    end, false)
-    ]]--
-
+    setUpdateFunction(throwEggContainer, 0.05, function()
+        if _G.canThrowEgg then
+            component.AsepriteView.getFor(throwEggIcon).frame = 3
+        else
+            component.AsepriteView.getFor(throwEggIcon).frame = 4
+        end
+    end)
 
     _G.showGameOverPopup = function(won)
+        destroyEntity(mealCountContainer)
+        destroyEntity(featherCountContainer)
+
         local popup = createEntity()
         setName(popup, "gameover popup")
         setComponents(popup, {
