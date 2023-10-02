@@ -4,6 +4,11 @@ _G.cutScene = true
 _G.introScreen = false
 _G.outroScreen = true
 
+if not _G.eggCounter then
+    -- for debugging:
+    _G.eggCounter = 6
+end
+
 onEvent("BeforeDelete", function()
     print("outro done..")
 end)
@@ -53,23 +58,18 @@ function startScript()
 
     local script = {}
 
-    if not _G.eggCounter then
-        -- for debugging:
-        _G.eggCounter = 4
-    end
-
     if _G.eggCounter <= 3 then
         -- lose
         script = {
             {
                 text = "If I would've done this, I would have collected\nway more!",
                 audio = "sounds/voicelines/lose_line_1",
-                duration = 3
+                duration = 4
             },
             {
                 text = "Anyway, lets take them back to the future,\nthey cannot hatch here! They deserve unlimited\nspace...",
                 audio = "sounds/voicelines/lose_line_2",
-                duration = 6.5,
+                duration = 6.,
                 func = "secondOutroCamPath"
             }
         }
@@ -84,7 +84,7 @@ function startScript()
             {
                 text = "Lets take them back to the future where\nI can give them unlimited space!",
                 audio = "sounds/voicelines/win_line_2",
-                duration = 3.5,
+                duration = 5,
                 func = "secondOutroCamPath"
             }
         }
@@ -126,7 +126,7 @@ function startScript()
         --    },
         --})
         component.DespawnAfter.getFor(popup).time = 0
-        setTimeout(createEntity(), 4, function()
+        setTimeout(createEntity(), 5.5, function()
             if screenTransitionStarted then
                 return
             end

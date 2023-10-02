@@ -103,6 +103,10 @@ function create(player)
         component.Inspecting.getFor(cam)
 
     elseif _G.outroScreen then
+
+        applyTemplate(createEntity(), "BoyOutro")
+        applyTemplate(createEntity(), "ProfessorOutro")
+
         local cam = getByName("outro_cam")
         setMainCamera(cam)
         setComponents(cam, {
@@ -174,6 +178,9 @@ function create(player)
                 return
             end
             i = i + 1
+            if i == 3 and exitOnFinish then
+                _G.byeProf()
+            end
 
             local cp = camCheckPoints[i]
             local method = "linear"
@@ -215,19 +222,19 @@ function create(player)
                 {
                     position = vec3(-60, 172, -174),
                     rotation = rot5,
-                    duration = 4,
+                    duration = 6.5,
                     fov = 45
                 },
                 {
                     position = vec3(-60, 172, -174),
                     rotation = rot5,
-                    duration = 2,
+                    duration = 3.5,
                     fov = 45
                 },
                 {
                     position = vec3(-60, 172, -174),
                     rotation = rot6,
-                    duration = 5,
+                    duration = 4.0,
                     fov = 5
                 }
             }
