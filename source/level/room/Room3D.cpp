@@ -117,11 +117,17 @@ void Room3D::update(double deltaTime)
             if (child.offsetInWorldSpace)
             {
                 t.position = child.position ? (*parentTransComp).position : mu::ZERO_3;
-                t.rotation = child.rotation ? (*parentTransComp).rotation : quat(1, 0, 0, 0);
+                if (child.rotation)
+                {
+                    t.rotation = child.rotation ? (*parentTransComp).rotation : quat(1, 0, 0, 0);
+                }
                 t.scale = child.scale ? (*parentTransComp).scale : mu::ONE_3;
 
                 t.position += child.offset.position;
-                t.rotation = child.offset.rotation * t.rotation;
+                if (child.rotation)
+                {
+                    t.rotation = child.offset.rotation * t.rotation;
+                }
                 t.scale = child.offset.scale * t.scale;
             }
             else

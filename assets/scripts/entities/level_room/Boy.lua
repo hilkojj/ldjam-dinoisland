@@ -3,6 +3,7 @@ masks = include("scripts/entities/level_room/_masks")
 
 loadRiggedModels("assets/models/cubeman.glb", false)
 loadRiggedModels("assets/models/boy.glb", false)
+loadModels("assets/models/arrow.glb", false)
 loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
@@ -136,6 +137,22 @@ function create(player)
         --Inspecting()
     })
     component.RigidBody.getFor(player):dirty().allowSleep = false
+
+    local arrow = createChild(player, "arrow")
+    setComponents(arrow, {
+        Transform(),
+        TransformChild {
+            parentEntity = player,
+            offset = Transform {
+                position = vec3(0, 3.5, 0)
+            },
+            rotation = false,
+            offsetInWorldSpace = true
+        },
+        LookAt {
+            entity = prof
+        }
+    })
 
     local dropShadowSun = createChild(player, "drop shadow sun")
     setComponents(dropShadowSun, {
@@ -296,6 +313,7 @@ function create(player)
                     -- set speed of boat to 0.
                     _G.holdingEgg = false
                     _G.holdingEggEntity = nil
+                    component.RenderModel.remove(arrow)
                     local rigged = component.Rigged.getFor(player)
                     if rigged.playingAnimations[#rigged.playingAnimations].name == "HandsUp" then
                         rigged.playingAnimations[#rigged.playingAnimations].influence = 0
@@ -403,6 +421,7 @@ function create(player)
             end
             local eggRigged = component.Rigged.getFor(_G.holdingEggEntity)
             eggRigged.playingAnimations[2].influence = math.abs(movement.walkDirInput.y)
+            component.RenderModel.getFor(arrow).modelName = "Arrow"
         end
         prevOnGround = movement.onGround
         
