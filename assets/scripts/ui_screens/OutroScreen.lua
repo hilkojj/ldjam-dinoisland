@@ -126,7 +126,7 @@ function startScript()
         --    },
         --})
         component.DespawnAfter.getFor(popup).time = 0
-        setTimeout(createEntity(), 5.5, function()
+        setTimeout(createEntity(), 6.0, function()
             if screenTransitionStarted then
                 return
             end

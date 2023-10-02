@@ -32,14 +32,17 @@ function create(prof)
     component.TransformChild.getFor(ship).parentEntity = prof
     component.TransformChild.getFor(ship).offset.position = vec3(0, -2, 0)
 
-    local startPos = vec3(400, 80, 145)
-    local finalPos = vec3(-158, 2.5, 441)
+    local startPos = vec3(-152, 104, -92)
+    local finalPos = vec3(76, 140, -47)
 
     component.Transform.getFor(prof).position = startPos
 
     _G.byeProf = function()
-        component.Transform.animate(prof, "position", finalPos, 4, "pow4In", function()
+        setTimeout(prof, 3.6, function()
             applyTemplate(createEntity(), "Flash")
+        end)
+        component.Transform.animate(prof, "position", finalPos, 4, "pow4In", function()
+            component.DespawnAfter.getFor(prof).time = 0
         end)
         setComponents(prof, {
             SoundSpeaker {

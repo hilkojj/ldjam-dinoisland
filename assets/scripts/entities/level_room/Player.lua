@@ -157,7 +157,7 @@ function create(player)
                 fov = 18
             },
             {
-                position = vec3(-181, 105, -106),
+                position = vec3(-181, 103, -106),
                 rotation = rot4,
                 duration = 1,
                 fov = 18
@@ -214,7 +214,7 @@ function create(player)
             exitOnFinish = true
             camCheckPoints = {
                 {
-                    position = vec3(-181, 105, -106),
+                    position = vec3(-181, 103, -106),
                     rotation = rot4,
                     duration = 0,
                     fov = 18
@@ -223,13 +223,13 @@ function create(player)
                     position = vec3(-60, 172, -174),
                     rotation = rot5,
                     duration = 6.5,
-                    fov = 45
+                    fov = 60
                 },
                 {
                     position = vec3(-60, 172, -174),
                     rotation = rot5,
                     duration = 3.5,
-                    fov = 45
+                    fov = 60
                 },
                 {
                     position = vec3(-60, 172, -174),

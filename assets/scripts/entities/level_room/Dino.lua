@@ -27,6 +27,9 @@ function create(dino, args)
     component.Transform.getFor(dino)
     if _G.titleScreen or _G.cutScene then
         component.Transform.getFor(dino).scale = vec3(3)
+        if _G.outroScreen then
+            component.Transform.getFor(dino).scale = vec3(2)
+        end
         setTimeout(dino, randomFloat(1, 5), function()
             component.LookAt.getFor(dino).entity = getByName("cine_cam")
         end)
