@@ -24,6 +24,14 @@ function create(dino, args)
     setName(dino, "dino")
 
     component.Transform.getFor(dino)
+    if _G.titleScreen or _G.cutScene then
+        component.Transform.getFor(dino).scale = vec3(3)
+        setTimeout(dino, randomFloat(1, 5), function()
+            component.LookAt.getFor(dino).entity = getByName("cine_cam")
+        end)
+    else
+        component.Transform.getFor(dino).scale = vec3(1)
+    end
     local hitDistance = 8.2
 
     setComponents(dino, {

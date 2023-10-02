@@ -16,7 +16,7 @@ function create(title)
         },
         SoundSpeaker {
             sound = "sounds/background_music",
-            volume = 0.8,
+            volume = 0.0,
             looping = true,
         },
     })

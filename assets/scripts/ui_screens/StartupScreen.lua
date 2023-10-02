@@ -76,7 +76,7 @@ setComponents(popup, {
 })
 
 applyTemplate(createChild(popup, "gameovertext"), "Text", {
-    text = "Dino Island\n",
+    text = "Rescue the Eggs!\n",
     waving = true,
     wavingFrequency = .04,
     wavingSpeed = 10,
@@ -107,4 +107,4 @@ difficultyBtn("Play", 9)
 
 
 endScreenTransition("transitions/screen_transition0", "shaders/ui/transition_cutoff")
-loadOrCreateLevel("assets/levels/title_screen.lvl")
+loadOrCreateLevel("assets/levels/default_level.lvl")

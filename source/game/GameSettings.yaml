@@ -8,14 +8,14 @@ GraphicsSettings @not_a_component @json_with_keys:
 
   imGuiFont: [string, "assets/fonts/ruda/Ruda-Bold.ttf"]
 
-  gammaCorrection: [float, 2.2]
+  gammaCorrection: [float, 1.3]
   msaaSamples: [uint8, 0]
   bloomBlurIterations: [uint8, 0]
   bloomThreshold: [float, 8]
   shadows: [bool, true]
   maxArmatureBones: [uint, 64]
-  fogStart: [float, 160]
-  fogEnd: [float, 240]
+  fogStart: [float, 180]
+  fogEnd: [float, 800]
   fogEnabled: [bool, true]
 
   prefilteredReflectionMapResolution: [uint, 256]
