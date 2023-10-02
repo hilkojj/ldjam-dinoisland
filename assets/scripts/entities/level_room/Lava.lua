@@ -14,22 +14,33 @@ function create(lava)
             vertexShaderPath = "shaders/default.vert",
             fragmentShaderPath = "shaders/dinoisland/lava.frag"
         },
-        RigidBody {
-            mass = 0,
+        GhostBody {
             collider = Collider {
-                bounciness = 1,
-                frictionCoefficent = 0.2,
-                collisionCategoryBits = collisionMasks.WATER,
-                collideWithMaskBits = collisionMasks.DYNAMIC_CHARACTER | collisionMasks.DYNAMIC_PROPS
+                collisionCategoryBits = collisionMasks.SENSOR,
+                collideWithMaskBits = collisionMasks.DYNAMIC_CHARACTER,
+                registerCollisions = true
             }
         },
         BoxColliderShape {
-            halfExtents = vec3(1000, 0.1, 1000)
+            halfExtents = vec3(20, 1, 20)
         },
         RenderModel {
             modelName = "Floor"
         }
 	})
 
+    local hit = false
+    onEntityEvent(lava, "Collision", function (col)
+
+        if col.otherEntity == _G.player and not hit and #col.contactPoints > 0 then
+            hit = true
+            _G.diedByLava = true
+            _G.queueRestartLevel = true
+            local cam = getByName("3rd_person_camera")
+            if valid(cam) then
+                component.ThirdPersonFollowing.remove(cam)
+            end
+        end
+    end)
 end
 

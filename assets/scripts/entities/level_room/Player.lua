@@ -19,6 +19,7 @@ function create(player)
     _G.featherScore = 0
     _G.timesHitByDino = 0
     _G.dodosKilled = 0
+    _G.diedByLava = false
 
     local prof = createEntity()
     applyTemplate(prof, "Professor")
