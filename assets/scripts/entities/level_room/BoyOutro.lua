@@ -9,7 +9,7 @@ function create(boy)
     rot1.y = 62
     setComponents(boy, {
         Transform {
-            position = vec3(32, 111, -56),
+            position = vec3(32, 110.5, -56),
             rotation = rot1
         },
         RenderModel {

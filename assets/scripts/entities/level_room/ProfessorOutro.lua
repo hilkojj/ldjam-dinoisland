@@ -37,12 +37,18 @@ function create(prof)
 
     component.Transform.getFor(prof).position = startPos
 
+    local eggEntities = {}
     _G.byeProf = function()
         setTimeout(prof, 3.6, function()
             applyTemplate(createEntity(), "Flash")
         end)
         component.Transform.animate(prof, "position", finalPos, 4, "pow4In", function()
             component.DespawnAfter.getFor(prof).time = 0
+
+            for i = 1, #eggEntities do
+                component.TransformChild.remove(eggEntities[i])
+                component.Transform.animate(eggEntities[i], "position", component.Transform.getFor(eggEntities[i]).position - vec3(0, 40, 0), 3, "pow2In")
+            end
         end)
         setComponents(prof, {
             SoundSpeaker {
@@ -57,6 +63,15 @@ function create(prof)
                 volume = .8
             },
         })
+    end
+
+    for i = 1,_G.eggCounter do
+        local egg = createEntity()
+        eggEntities[#eggEntities + 1] = egg
+        applyTemplate(egg, "Egg")
+        component.TransformChild.getFor(egg).parentEntity = ship
+        component.TransformChild.getFor(egg).rotation = true
+        component.TransformChild.getFor(egg).offset.position = _G.eggOffsets[i] + vec3(0, 0.2, 0)
     end
 end
 

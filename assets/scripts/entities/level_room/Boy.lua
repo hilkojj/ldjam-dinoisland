@@ -8,6 +8,27 @@ loadColliderMeshes("assets/models/test_convex_colliders.obj", true)
 loadColliderMeshes("assets/models/test_concave_colliders.obj", false)
 
 _G.eggThrowMaxDistance = 52
+_G.eggOffsets = {
+    vec3(3, 1, 0),
+    vec3(3.9, 0.8, 0),
+    vec3(2.1, 0.9, 0),
+
+    vec3(3, 1, 1),
+    vec3(3.9, 0.8, 1),
+    --vec3(2.1, 0.9, 1),
+
+    vec3(3, 1, -1),
+    --vec3(3.9, 0.8, -1),
+    vec3(2.1, 0.9, -1),
+
+    vec3(2.5, 1.8, -0.5),
+    --vec3(3.5, 1.8, -0.5),
+
+    --vec3(2.5, 1.8, 0.5),
+    vec3(3.5, 1.8, 0.5),
+
+    vec3(3, 2.6, 0),
+}
 
 function create(player)
 
@@ -246,28 +267,6 @@ function create(player)
     end)
 
     _G.eggCounter = 0
-    local eggOffsets = {
-        vec3(3, 1, 0),
-        vec3(3.9, 0.8, 0),
-        vec3(2.1, 0.9, 0),
-
-        vec3(3, 1, 1),
-        vec3(3.9, 0.8, 1),
-        --vec3(2.1, 0.9, 1),
-
-        vec3(3, 1, -1),
-        --vec3(3.9, 0.8, -1),
-        vec3(2.1, 0.9, -1),
-
-        vec3(2.5, 1.8, -0.5),
-        --vec3(3.5, 1.8, -0.5),
-
-        --vec3(2.5, 1.8, 0.5),
-        vec3(3.5, 1.8, 0.5),
-
-        vec3(3, 2.6, 0),
-    }
-
     listenToKey(player, gameSettings.keyInput.meal, "meal_key")
     onEntityEvent(player, "meal_key_pressed", function()
 
@@ -313,11 +312,11 @@ function create(player)
                     component.Transform.animate(egg, "position", halfWayPoint, 0.8, "pow2In", function()
                         component.Transform.animate(egg, "position", shipEndPoint, 0.8, "pow2Out", function()
                             _G.eggCounter = _G.eggCounter + 1
-                            if _G.eggCounter > #eggOffsets then
+                            if _G.eggCounter > #_G.eggOffsets then
                                 component.DespawnAfter.getFor(egg).time = 0
                             else
                                 component.TransformChild.getFor(egg).parentEntity = ship
-                                component.TransformChild.getFor(egg).offset.position = eggOffsets[_G.eggCounter]
+                                component.TransformChild.getFor(egg).offset.position = _G.eggOffsets[_G.eggCounter]
                             end
                             if egg == _G.lastEgg then
                                 setTimeout(player, 1.2, _G.onLastEgg)
