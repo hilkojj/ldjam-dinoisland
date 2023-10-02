@@ -2,7 +2,7 @@ config:
   namespace: Game
 
 AudioSettings @not_a_component @json_with_keys:
-  masterVolume: [ float, 4. ]
+  masterVolume: [ float, 1. ]
 
 GraphicsSettings @not_a_component @json_with_keys:
 
