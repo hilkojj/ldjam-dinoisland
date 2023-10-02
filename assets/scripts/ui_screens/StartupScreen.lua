@@ -40,7 +40,7 @@ function startIntro()
     onEvent("ScreenTransitionStartFinished", function()
 
         closeActiveScreen()
-        openScreen("scripts/ui_screens/CutSceneScreen")
+        openScreen("scripts/ui_screens/IntroScreen")
     end)
 end
 
